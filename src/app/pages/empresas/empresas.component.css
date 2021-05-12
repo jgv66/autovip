@@ -1,0 +1,148 @@
+table {
+    width: 100%;
+}
+
+select option {
+    display: block;
+    text-overflow: ellipsis;
+    max-height: 400px;
+}
+
+mat-header-cell {
+    font-weight: bold;
+    background-color: #03a9f438;
+}
+
+mat-cell {
+    font-weight: black;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+th {
+    background-color: rgb(168, 158, 158);
+}
+
+.fix-container {
+    height: 600px;
+    overflow-x: auto;
+}
+
+.example-h2 {
+    margin: 10px;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.example-margin {
+    margin: 0 10px;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 30%;
+}
+
+.x800 {
+    width: 800px !important;
+}
+
+
+/* este determina el ancho del dialogo */
+
+.modal-content {
+    width: 800px !important;
+    max-width: 800px !important;
+    height: 450px !important;
+    max-height: 450px !important;
+}
+
+.modal-dialog {
+    width: 900px;
+    max-width: 900px;
+}
+
+.modal-body {
+    height: 530px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+select option {
+    display: block;
+    text-overflow: ellipsis;
+    max-height: 200px;
+}
+
+.empresa {
+    flex: none;
+    max-width: 370px !important;
+    width: 370px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.rut {
+    flex: none;
+    max-width: 150px !important;
+    width: 150px !important;
+    text-align: left;
+}
+
+.fantasia {
+    flex: none;
+    max-width: 220px !important;
+    width: 220px !important;
+    text-align: left;
+}
+
+.trato {
+    flex: none;
+    max-width: 250px !important;
+    width: 250px !important;
+    text-align: left;
+}
+
+.departamento {
+    flex: none;
+    max-width: 250px !important;
+    width: 250px !important;
+    text-align: left;
+}
+
+.nombreadmin {
+    flex: none;
+    max-width: 250px !important;
+    width: 250px !important;
+    text-align: left;
+}
+
+.acciones {
+    margin-right: 15px;
+    flex: none;
+    max-width: 150px !important;
+    width: 150px !important;
+    text-align: center;
+}
+
+
+/* modal backdrop fix */
+
+.modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
+}
+
+.example-full-width {
+    width: 100%;
+}
