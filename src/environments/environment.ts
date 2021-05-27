@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_URL: 'http://45.181.79.89:3045'
+  API_URL: 'https://api.cabcorp.kinetik.cl'
 };
 
 /*

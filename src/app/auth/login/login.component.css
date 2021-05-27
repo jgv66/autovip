@@ -24,9 +24,21 @@ Login register
     right: 0px;
 }
 
-.login-box .social {
+.login-box card {
     display: block;
     margin-bottom: 30px;
+}
+
+.borde-10 {
+    border-radius: 10px;
+}
+
+.pad-10 {
+    padding-left: 10px;
+}
+
+.card-body {
+    background-color: rgb(235, 222, 113);
 }
 
 #recoverform {
@@ -42,4 +54,8 @@ Login register
     right: 0px;
     position: absolute;
     height: 100%;
+}
+
+footer {
+    background-color: rgb(235, 222, 113);
 }

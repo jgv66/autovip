@@ -23,8 +23,8 @@ export class BreadcrumbsComponent implements OnDestroy {
     this.tituloSubs$ = this.getArgumentosRuta()
                         .subscribe( ({ titulo }) => {
                             this.titulo = titulo;
-                            document.title = `TCarGo!`;
-                            // document.title = `TCarGo - ${ titulo }`;
+                            document.title = `CabCorp.cl`;
+                            // document.title = `CabCorp.cl - ${ titulo }`;
                         });
   }
   ngOnDestroy(): void {
