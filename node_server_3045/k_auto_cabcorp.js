@@ -67,32 +67,15 @@ app.post('/usr',
                 res.status(500).json({ resultado: 'error', datos: error });
             });
     });
-app.get('/usuarios',
+app.get('/usuarioschico',
     function(req, res) {
         //
-        console.log(req.body);
         servicios.todos(sql, req.body)
             .then(function(data) {
                 try {
                     res.json({ resultado: "ok", datos: data });
                 } catch (error) {
                     res.status(500).json({ resultado: 'error', datos: 'Usuario no existe. Corrija o verifique, luego reintente.' });
-                }
-            })
-            .catch(function(error) {
-                res.status(500).json({ resultado: 'error', datos: error });
-            });
-    });
-app.post('/crearUsuario',
-    function(req, res) {
-        //
-        console.log(req.body);
-        servicios.grabarUsuario(sql, req.body)
-            .then(function(data) {
-                try {
-                    res.json({ resultado: "ok", datos: data });
-                } catch (error) {
-                    res.status(500).json({ resultado: 'error', datos: error });
                 }
             })
             .catch(function(error) {
@@ -417,6 +400,285 @@ app.post('/borratarifa',
                     res.json({ resultado: "ok", datos: data });
                 } catch (error) {
                     res.status(500).json({ resultado: 'error', datos: 'Error al eliminar Tarifa' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/tipodeservicio',
+    function(req, res) {
+        //
+        servicios.tipoDeServicio(sql)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen tipos de servicio definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/tipodeservicio',
+    function(req, res) {
+        //
+        console.log(req.body.data);
+        servicios.addTipoDeServicio(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen tarifas definidas.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borraservicio',
+    function(req, res) {
+        //
+        servicios.delTipoDeServicio(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar servicio' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/usuarios',
+    function(req, res) {
+        //
+        servicios.traeUsuarios(sql)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen usuarios definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/usuarios',
+    function(req, res) {
+        //
+        console.log(req.body.data);
+        servicios.addUsuario(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen usuarios definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borrausuario',
+    function(req, res) {
+        //
+        servicios.delUsuario(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar usuario' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/estados',
+    function(req, res) {
+        //
+        servicios.traeEstados(sql)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen estados definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/estados',
+    function(req, res) {
+        //
+        console.log(req.body.data);
+        servicios.addEstado(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen estados definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borraestado',
+    function(req, res) {
+        //
+        servicios.delEstado(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar estado' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/turnos',
+    function(req, res) {
+        //
+        servicios.traeTurnos(sql)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen turnos definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/turnos',
+    function(req, res) {
+        //
+        console.log(req.body.data);
+        servicios.addTurno(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen turnos definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borraturno',
+    function(req, res) {
+        //
+        servicios.delTurno(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar turno' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/vehiculoskilometraje',
+    function(req, res) {
+        //
+        servicios.vehiculosKilometraje(sql)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al rescatar kilometrajes por vehículo' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/vehiculoskilometraje',
+    function(req, res) {
+        //
+        console.log(req.body.data);
+        servicios.addKilometraje(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'No existen vehiculos definidos.' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borraregistrokm',
+    function(req, res) {
+        //
+        servicios.delRegistroKm(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar registro de kilometraje' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.get('/vehiculosdetenidos',
+    function(req, res) {
+        //
+        const body = req.query.param;
+        console.log(body);
+        //
+        servicios.vehiculosDetenidos(sql, body)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al rescatar detenciones por vehículo' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/vehiculosdetenidos',
+    function(req, res) {
+        //
+        servicios.addDetenidos(sql, req.body.data)
+            .then(function(data) {
+                console.log(data);
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al rescatar detenciones por vehículo' });
+                }
+            })
+            .catch(function(error) {
+                res.status(500).json({ resultado: 'error', datos: error });
+            });
+    });
+app.post('/borraregistrostop',
+    function(req, res) {
+        //
+        servicios.delRegistroStop(sql, req.body.data)
+            .then(function(data) {
+                try {
+                    res.json({ resultado: "ok", datos: data });
+                } catch (error) {
+                    res.status(500).json({ resultado: 'error', datos: 'Error al eliminar registro de kilometraje' });
                 }
             })
             .catch(function(error) {

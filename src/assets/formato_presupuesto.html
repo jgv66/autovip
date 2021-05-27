@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 100%;
+            font-family: 'Avenir Next', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+            line-height: 1.65;
+        }
+        
+        img {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        body,
+        .body-wrap {
+            width: 100% !important;
+            height: 100%;
+            background: #efefef;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: none;
+        }
+        
+        a {
+            color: #71bc37;
+            text-decoration: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .text-left {
+            text-align: left;
+        }
+        
+        .button {
+            display: inline-block;
+            color: white;
+            background: #71bc37;
+            border: solid #71bc37;
+            border-width: 10px 20px 8px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-bottom: 20px;
+            line-height: 1.25;
+        }
+        
+        h1 {
+            font-size: 32px;
+        }
+        
+        h2 {
+            font-size: 28px;
+        }
+        
+        h3 {
+            font-size: 24px;
+        }
+        
+        h4 {
+            font-size: 20px;
+        }
+        
+        h5 {
+            font-size: 16px;
+        }
+        
+        p,
+        ul,
+        ol {
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            display: block !important;
+            clear: both !important;
+            margin: 0 auto !important;
+            max-width: 980px !important;
+        }
+        
+        .container table {
+            width: 100% !important;
+            border-collapse: collapse;
+        }
+        
+        .container .masthead {
+            padding: 10px 10px 10px;
+            background: #598ceb;
+            color: white;
+        }
+        
+        .negroblanco {
+            background: #1e1f20;
+            color: white;
+        }
+        
+        .container .masthead h1 {
+            margin: 0 auto !important;
+            max-width: 90%;
+            text-transform: uppercase;
+        }
+        
+        .container .rayagris {
+            max-height: 2px;
+            background: #b4b5b8;
+            color: #b4b5b8;
+        }
+        
+        .container .content {
+            background: white;
+            padding: 30px 35px;
+        }
+        
+        .container .content.footer {
+            background: none;
+        }
+        
+        .container .content.footer p {
+            margin-bottom: 0;
+            color: #888;
+            text-align: center;
+            font-size: 10px;
+        }
+        
+        .container .content.footer a {
+            color: #888;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="body-wrap">
+        <tr>
+            <td class="container">
+                <!-- Message start -->
+                <table>
+                    <tr>
+                        <td align="left" class="masthead">
+                            <!-- <img src="http://www.zsmotor.cl/img/logo-zs-motors.png" alt="zsmotor.cl"></img> -->
+                            <!-- init svg -->
+                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="250px" height="88.667px" viewBox="0 0 250 88.667" enable-background="new 0 0 250 88.667" xml:space="preserve">
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M67.668,18.37L63.596,4.326L59.524,18.37l-10.062,3.649
+                                    l10.074,3.685l4.063,13.992l4.088-14.065l9.959-3.618L67.668,18.37z M51.023,22.019h7.449l0.835,2.874L51.023,22.019z
+                                     M63.596,16.888l-0.1-0.006l-3.167,1.198l3.267-11.808V16.888z M63.599,37.751V27.117l3.28-1.195L63.599,37.751z M67.904,19.184
+                                    l8.181,2.829l-7.34-0.006L67.904,19.184z"></path>
+                                <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="93.033,53.564 93.105,53.564 100.923,78.904
+                                    104.351,78.904 112.328,53.564 112.407,53.564 112.407,78.904 116.041,78.904 116.041,50.403 110.038,50.403 102.784,74.324
+                                    102.702,74.324 95.514,50.403 89.632,50.403 89.632,78.904 93.033,78.904 "></polygon>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M129.537,68.996c0.314,6.435-2.133,7.661-4.112,7.661
+                                    c-2.166,0-3.119-1.74-3.119-3.67C122.306,68.76,126.457,69.036,129.537,68.996z M129.618,78.904h3.546
+                                    c-0.239-1.534-0.397-3.155-0.397-4.737v-9.591c0-3.352-1.343-5.999-6.474-5.999c-4.223,0-6.589,1.543-6.746,5.999h3.515
+                                    c-0.2-2.094,0.941-3.555,3.116-3.555c3.474,0,3.44,2.88,3.359,5.527c-4.538-0.121-10.465,0.157-10.465,6.196
+                                    c0,3.83,1.225,6.553,5.449,6.553c2.49,0,4.023-0.98,5.016-3.274h0.081V78.904z"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M139.681,58.973h-3.24v19.931h3.24v-11.76
+                                    c0-2.693,0.91-5.415,4.501-5.415c0.312,0,0.59,0.045,0.868,0.082c0.278,0.042,0.594,0.082,0.866,0.118v-3.352
+                                    c-3.158,0-4.811,0.357-6.148,3.391h-0.088V58.973z"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M163.233,68.128c0,4.027,0,8.529-3.631,8.529
+                                    c-4.069,0-4.069-4.344-4.069-7.345c0-5.325,0.472-8.087,3.948-8.087C163.076,61.224,163.233,65.487,163.233,68.128z M163.233,60.988
+                                    h-0.121c-1.107-1.579-2.482-2.411-4.381-2.411c-6.434,0-6.595,5.724-6.595,10.701c0,8.755,3.243,10.02,6.441,10.02
+                                    c2.09,0,3.47-0.904,4.571-2.756h0.085v2.363h3.237V50.403h-3.237V60.988z"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M172.824,67.535c0.036-5.521,1.736-6.513,3.79-6.513
+                                    c2.37,0,3.987,0.708,3.987,6.513H172.824z M184.041,69.985v-1.7c0-6.592-1.431-9.708-7.11-9.708c-6.906,0-7.575,4.813-7.575,10.658
+                                    c0,8.798,3.352,10.063,7.575,10.063c4.181,0,6.91-2.009,6.947-6.432h-3.558c-0.11,2.012-1.259,3.791-3.467,3.791
+                                    c-2.524,0-4.03-1.107-4.03-6.671H184.041z"></path>
+                                <rect x="186.568" y="50.403" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="3.233" height="28.502"></rect>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M198.203,70.424c-0.079,2.717-0.079,9.152,8.328,9.07
+                                    c4.695,0,8.841-1.93,8.841-7.929c0-9.04-12.789-8.132-12.789-14.407c0-3.086,2.213-4.184,4.381-4.184
+                                    c3.433,0,4.426,2.051,4.383,5.17h3.788c0.237-5.806-2.686-8.329-7.895-8.329c-4.777,0-8.369,2.684-8.369,7.733
+                                    c0,8.568,12.791,7.854,12.791,14.174c0,3.392-2.221,4.617-5.095,4.617c-2.325,0-4.774-1.225-4.774-5.092v-0.823H198.203z"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M228.474,72.197c0,3.316-2.169,4.611-3.911,4.611
+                                    c-2.288,0-3.389-1.616-3.389-4.027V58.973h-3.243v15.194c0,3.397,1.903,5.131,5.371,5.131c2.096,0,3.99-0.98,5.052-2.798h0.12v2.405
+                                    h3.434c-0.121-1.386-0.2-2.765-0.2-4.148V58.973h-3.234V72.197z"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M238.146,58.973h-3.24v19.931h3.24v-11.76
+                                    c0-2.693,0.917-5.415,4.502-5.415c0.318,0,0.592,0.045,0.871,0.082c0.273,0.042,0.59,0.082,0.865,0.118v-3.352
+                                    c-3.161,0-4.81,0.357-6.156,3.391h-0.082V58.973z"></path>
+                                <g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M9.031,34.184"></path>
+                                    <path fill="#FFFFFF" d="M7.633,28.036c0,0,1.083-0.273,3.086-0.409c25.394-1.788,42.382,23.776,65.438,19.562l1.286-0.212v6.798
+                                        c0,0-1.177,0.236-3.268,0.345C47.241,55.47,29.697,30.117,9.158,34.571l-1.525,0.212V28.036z"></path>
+                                    <path fill="#FFFFFF" d="M7.633,53.407c0,0,1.083-0.263,3.086-0.409c25.394-1.785,42.382,23.776,65.438,19.562l1.286-0.206v6.798
+                                        c0,0-1.177,0.23-3.268,0.336C47.241,80.84,29.697,55.491,9.158,59.938l-1.525,0.215V53.407z"></path>
+                                    <path fill="#FFFFFF" d="M7.633,40.718c0,0,1.083-0.263,3.086-0.405c25.394-1.785,42.382,23.779,65.438,19.561l1.286-0.212v6.798
+                                        c0,0-1.177,0.239-3.268,0.342C47.241,68.149,29.697,42.806,9.158,47.259l-1.525,0.209V40.718z"></path>
+                                </g>
+                                <g>
+                                    <path fill="#FFFFFF" d="M89.489,35.87h6.558v1.107h-5.364v2.744h4.959v1.046h-4.959v3.064h5.457v1.077h-6.651V35.87z"></path>
+                                    <path fill="#FFFFFF" d="M97.494,35.87h1.754l2.599,7.641l2.58-7.641h1.741v9.038h-1.169v-5.334c0-0.184,0.004-0.49,0.012-0.917
+                                        c0.008-0.427,0.012-0.884,0.012-1.372l-2.58,7.622h-1.213l-2.605-7.622v0.277c0,0.222,0.006,0.559,0.018,1.012
+                                        c0.012,0.453,0.019,0.786,0.019,1v5.334h-1.169V35.87z"></path>
+                                    <path fill="#FFFFFF" d="M107.885,35.87h4.044c0.799,0,1.445,0.227,1.937,0.68c0.492,0.453,0.737,1.09,0.737,1.91
+                                        c0,0.705-0.219,1.32-0.658,1.842c-0.439,0.523-1.11,0.784-2.014,0.784h-2.822v3.821h-1.224V35.87z M112.633,37.112
+                                        c-0.269-0.127-0.637-0.191-1.106-0.191h-2.419v3.131h2.419c0.546,0,0.988-0.117,1.329-0.351c0.34-0.234,0.51-0.646,0.51-1.236
+                                        C113.366,37.802,113.122,37.35,112.633,37.112z"></path>
+                                    <path fill="#FFFFFF" d="M116.067,35.87h4.108c0.677,0,1.234,0.101,1.673,0.301c0.834,0.386,1.251,1.097,1.251,2.135
+                                        c0,0.541-0.112,0.984-0.335,1.329c-0.223,0.344-0.536,0.621-0.938,0.831c0.353,0.143,0.618,0.332,0.797,0.566
+                                        c0.178,0.234,0.278,0.613,0.298,1.138l0.043,1.212c0.012,0.344,0.04,0.601,0.085,0.769c0.074,0.287,0.206,0.472,0.394,0.554v0.203
+                                        h-1.501c-0.04-0.078-0.073-0.178-0.098-0.301c-0.024-0.123-0.045-0.361-0.061-0.714l-0.074-1.507
+                                        c-0.028-0.591-0.241-0.986-0.64-1.187c-0.228-0.111-0.584-0.166-1.07-0.166h-2.708v3.876h-1.224V35.87z M120.044,40.01
+                                        c0.558,0,1-0.115,1.325-0.344c0.325-0.23,0.488-0.644,0.488-1.243c0-0.644-0.227-1.083-0.682-1.316
+                                        c-0.244-0.123-0.568-0.185-0.975-0.185h-2.907v3.088H120.044z"></path>
+                                    <path fill="#FFFFFF" d="M124.883,35.87h6.558v1.107h-5.364v2.744h4.959v1.046h-4.959v3.064h5.456v1.077h-6.65V35.87z"></path>
+                                    <path fill="#FFFFFF" d="M133.717,41.991c0.028,0.513,0.144,0.929,0.35,1.249c0.391,0.599,1.081,0.898,2.068,0.898
+                                        c0.442,0,0.845-0.066,1.209-0.197c0.703-0.254,1.055-0.709,1.055-1.366c0-0.492-0.149-0.843-0.447-1.052
+                                        c-0.303-0.205-0.775-0.383-1.419-0.535l-1.186-0.277c-0.775-0.18-1.323-0.379-1.644-0.597c-0.557-0.377-0.835-0.941-0.835-1.692
+                                        c0-0.812,0.274-1.479,0.82-1.999c0.547-0.521,1.321-0.781,2.323-0.781c0.922,0,1.706,0.229,2.35,0.686
+                                        c0.644,0.457,0.967,1.188,0.967,2.193h-1.15c-0.059-0.484-0.185-0.855-0.378-1.113c-0.358-0.472-0.965-0.708-1.822-0.708
+                                        c-0.693,0-1.189,0.152-1.493,0.455c-0.303,0.304-0.454,0.656-0.454,1.058c0,0.443,0.179,0.767,0.537,0.972
+                                        c0.234,0.131,0.764,0.295,1.591,0.492l1.228,0.289c0.592,0.139,1.05,0.33,1.372,0.572c0.555,0.422,0.834,1.036,0.834,1.839
+                                        c0,1.001-0.354,1.717-1.065,2.147c-0.71,0.43-1.535,0.646-2.475,0.646c-1.096,0-1.954-0.287-2.574-0.861
+                                        c-0.62-0.57-0.924-1.343-0.912-2.319H133.717z"></path>
+                                    <path fill="#FFFFFF" d="M143.707,35.87h1.382l3.281,9.038h-1.342l-0.943-2.707h-3.545l-0.98,2.707h-1.255L143.707,35.87z
+                                         M145.737,41.203l-1.392-3.993l-1.446,3.993H145.737z"></path>
+                                    <path fill="#FFFFFF" d="M150.022,41.991c0.028,0.513,0.144,0.929,0.35,1.249c0.39,0.599,1.08,0.898,2.068,0.898
+                                        c0.442,0,0.845-0.066,1.209-0.197c0.703-0.254,1.054-0.709,1.054-1.366c0-0.492-0.149-0.843-0.447-1.052
+                                        c-0.301-0.205-0.775-0.383-1.418-0.535l-1.186-0.277c-0.775-0.18-1.323-0.379-1.646-0.597c-0.555-0.377-0.834-0.941-0.834-1.692
+                                        c0-0.812,0.273-1.479,0.82-1.999c0.546-0.521,1.321-0.781,2.323-0.781c0.922,0,1.704,0.229,2.349,0.686
+                                        c0.646,0.457,0.968,1.188,0.968,2.193h-1.151c-0.059-0.484-0.185-0.855-0.376-1.113c-0.358-0.472-0.965-0.708-1.823-0.708
+                                        c-0.692,0-1.189,0.152-1.492,0.455c-0.303,0.304-0.454,0.656-0.454,1.058c0,0.443,0.178,0.767,0.536,0.972
+                                        c0.234,0.131,0.766,0.295,1.591,0.492l1.229,0.289c0.592,0.139,1.049,0.33,1.371,0.572c0.557,0.422,0.835,1.036,0.835,1.839
+                                        c0,1.001-0.356,1.717-1.065,2.147c-0.71,0.43-1.536,0.646-2.476,0.646c-1.096,0-1.954-0.287-2.574-0.861
+                                        c-0.62-0.57-0.924-1.343-0.911-2.319H150.022z"></path>
+                                </g>
+                            </svg>
+                            <!-- end svg -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="rayagris">
+                            <p> </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="content">
+                            <h3>ORDEN DE REPARACION Nro. ###-id-###</h3>
+                            <!-- datos del cliente -->
+                            <table border="0">
+                                <tr>
+                                    <td style="width: 100px;">Nombre</td>
+                                    <td align="left" style="width: 350px;font-weight: bold;">###-nombre-###</td>
+                                    <td style="width: 90px;">Rut</td>
+                                    <td align="left" style="font-weight: bold;">###-rut-###</td>
+                                </tr>
+                                <tr>
+                                    <td>Dirección</td>
+                                    <td align="left" style="font-weight: bold;">###-direccion-###</td>
+                                    <td>Comuna</td>
+                                    <td align="left" style="font-weight: bold;">###-comuna-###</td>
+                                </tr>
+                                <tr>
+                                    <td>Teléfonos</td>
+                                    <td align="left" style="font-weight: bold;">###-telefonos-###</td>
+                                    <td>Email</td>
+                                    <td align="left" style="font-weight: bold;">###-email-###</td>
+                                </tr>
+                            </table>
+                            <table border="0" style="margin-top: 10px;">
+                                <tr>
+                                    <td style="width: 100px;">Artículo</td>
+                                    <td align="left" style="width: 350px;font-weight: bold;">###-articulo-###</td>
+                                    <td style="width: 150px;">Fecha de Ingreso</td>
+                                    <td align="left" style="font-weight: bold;">###-fingreso-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100px;">Modelo</td>
+                                    <td align="left" style="width: 350px;font-weight: bold;">###-modelo-###</td>
+                                    <td style="width: 150px;">Fecha de Compra</td>
+                                    <td align="left" style="font-weight: bold;">###-fcompra-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100px;">Serie</td>
+                                    <td align="left" style="width: 350px;font-weight: bold;">###-serie-###</td>
+                                    <td style="width: 150px;">Fecha Despacho</td>
+                                    <td align="left" style="font-weight: bold;">###-fdespacho-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100px;">Marca</td>
+                                    <td align="left" style="width: 350px;font-weight: bold;">###-marca-###</td>
+                                </tr>
+                            </table>
+                            <table border="0" style="margin-top: 15px;">
+                                <tr>
+                                    <td style="width: 100px;">Distribuidor</td>
+                                    <td align="left" style="width: 210px;font-weight: bold;">###-distribuidor-###</td>
+                                    <td style="width: 130px;">Nro.Boleta/Fact.</td>
+                                    <td align="left" style="width: 170px;font-weight: bold;">###-nrobolfac-###</td>
+                                    <td style="width: 120px;">Nro.Guia Desp.</td>
+                                    <td align="left" style="font-weight: bold;">###-nroguiadesp-###</td>
+                                </tr>
+                            </table>
+                            <table border="0" style="margin-top: 10px;">
+                                <tr>
+                                    <td style="width: 100px;">S.T.A.</td>
+                                    <td align="left" style="font-weight: bold;">###-sta-###</td>
+                                </tr>
+                            </table>
+                            <table border="1" style="margin-top: 10px;">
+                                <tr>
+                                    <td style="width: 170px;">Defecto Informado</td>
+                                    <td align="left" style="font-weight: bold;">###-defecto-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 170px;">Defecto Encontrado</td>
+                                    <td align="left" style="font-weight: bold;">###-encontrado-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 170px;">Trabajo Realizado</td>
+                                    <td align="left" style="font-weight: bold;">###-trabajo-###</td>
+                                </tr>
+                            </table>
+                            <br>
+                            <!-- textos -->
+                            <h3>Detalle de Repuestos</h3>
+                            <table border="1" style="margin-top: -29px;">
+                                <tr>
+                                    <th align="center" class="negroblanco">Código</th>
+                                    <th align="center" class="negroblanco">Nombre de Parte</th>
+                                    <th align="center" class="negroblanco">Descripción</th>
+                                    <th align="center" class="negroblanco">Cantidad</th>
+                                    <th align="center" class="negroblanco">Precio Unit</th>
+                                    <th align="center" class="negroblanco">SubTotal</th>
+                                </tr>
+
+                                ###_detalle_###
+
+                                <tr>
+                                    <td colspan="5" align="right"><strong>TOTAL $  </strong></td>
+                                    <td align="center"><strong>###_total_###</strong></td>
+                                </tr>
+
+                            </table>
+                            <table border="0" style="margin-top: 20px;">
+                                <tr>
+                                    <td style="width: 120px;">Observaciones:</td>
+                                    <td align="left" style="font-weight: bold;">###-obs-###</td>
+                                </tr>
+                            </table>
+                            <table border="0" style="margin-top: 20px;">
+                                <tr>
+                                    <td style="width: 280px;">Técnico</td>
+                                    <td align="left" style="font-weight: bold;">###-tecadmin-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 280px;">Administrador</td>
+                                    <td align="left" style="font-weight: bold;">###-tecadmin-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 280px;">Fecha de Aviso presupuesto/garantía</td>
+                                    <td align="left" style="font-weight: bold;">###-favisopresup-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 280px;">Fecha Aceptado</td>
+                                    <td align="left" style="font-weight: bold;">###-favisoacepta-###</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 280px;">Fecha Aviso Reparado</td>
+                                    <td align="left" style="font-weight: bold;">###-favisoreparado-###</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!--  KINETIK -->
+                </table>
+                <br>
+                <p style="text-align: center;">Estimado cliente, este documento es una copia de respaldo a la atención prestada.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="container">
+                <!-- Message start -->
+                <table>
+                    <tr>
+                        <td class="content footer" align="center">
+                            <p>Desarrollado por Kinetik - Soluciones Móviles</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+</body>
+
+</html>
