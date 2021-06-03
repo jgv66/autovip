@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   });
   cargando = false;
   yaEstoy = false;
-  year = new Date().getFullYear();
+  year = 2021;  // new Date().getFullYear();
 
   constructor( public router: Router,
                private fb: FormBuilder,

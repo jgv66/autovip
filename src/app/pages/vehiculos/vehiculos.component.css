@@ -26,7 +26,7 @@ th {
 }
 
 .fix-container {
-    height: 600px;
+    height: 720px;
     overflow-x: auto;
 }
 
@@ -68,8 +68,8 @@ th {
 .modal-content {
     width: 800px !important;
     max-width: 800px !important;
-    height: 450px !important;
-    max-height: 450px !important;
+    height: 550px !important;
+    max-height: 550px !important;
 }
 
 .modal-dialog {
