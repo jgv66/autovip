@@ -172,6 +172,21 @@ select option {
     text-align: left;
 }
 
+.conductor {
+    flex: none;
+    max-width: 200px !important;
+    width: 200px !important;
+    text-align: left;
+}
+
+.motivo {
+    flex: none;
+    max-width: 320px !important;
+    width: 320px !important;
+    text-align: left;
+    padding-right: 10px;
+}
+
 
 /* modal backdrop fix */
 
@@ -185,4 +200,10 @@ select option {
 
 .example-full-width {
     width: 100%;
+}
+
+.refresco {
+    margin-top: 10px;
+    border: none;
+    mat-icon {}
 }

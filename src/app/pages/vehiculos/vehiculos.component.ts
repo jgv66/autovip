@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
 // modulos
 import { LoginService } from '../../services/login.service';
 import { DatosService } from '../../services/datos.service';
@@ -26,7 +27,7 @@ export class VehiculosComponent implements OnInit {
   
   dispColumns:  string[] = ['marca','modelo','anno','patente','empresa','tipodeservicio','soap','circulacion','taximetro','serviciotecnico','cru'];
   dispKColumns: string[] = ['marca','modelo','anno','patente','conductor','kmactual','fecharegistro','proxmantencion','diasproxmantencion','cru'];
-  dispSColumns: string[] = ['marca','modelo','anno','patente','conductor','kmactual','motivo','responsable','fechadetencion','fechalta','reparado','cru'];
+  dispSColumns: string[] = ['marca','modelo','anno','patente','conductor','kmactual','motivo','responsable','fechadetencion','fechaalta','textoestado','cru'];
 
   cargando = false;
   grabando = false;
@@ -61,10 +62,11 @@ export class VehiculosComponent implements OnInit {
   //
   fechadetencion: Date;
   motivo = '';
-  responsableliberarcion = '';
+  responsable = '';
   fechaalta: Date;
   estaReparado = false;
   fechareparacion: Date;
+  reparado = 0;
   //
   constructor( public loginService: LoginService,
                private datos: DatosService,
@@ -134,9 +136,10 @@ export class VehiculosComponent implements OnInit {
           Swal.fire(error);
         });
   }
-  cargarDetencion() {
+  cargarDetencion( historico? ) {
     this.cargando = true;
-    this.datos.getServicioWEB( '/vehiculosdetenidos' )
+    const conBody = ( historico ? { ok: 1 } : null );
+    this.datos.getServicioWEB( '/vehiculosdetenidos', conBody )
         .subscribe( (dev: any) => {
             //
             this.cargando = false;
@@ -222,7 +225,7 @@ export class VehiculosComponent implements OnInit {
     this.kmactual = row.kmactual;
     this.fechadetencion = row.fechadetencion;
     this.motivo = row.motivo;
-    this.responsableliberarcion = row.responsableliberarcion;
+    this.responsable = row.responsable;
     this.fechaalta = row.fechaalta;
     this.estaReparado = row.reparado;
     this.fechareparacion = row.fechareparacion;
@@ -362,17 +365,17 @@ export class VehiculosComponent implements OnInit {
       kmactual: regStopForm.value.kmactual,
       fechadetencion: regStopForm.value.fechadetencion,
       motivo: regStopForm.value.motivo,
-      responsableliberarcion: regStopForm.value.responsableliberarcion,
+      responsable: regStopForm.value.responsable,
       fechaalta: regStopForm.value.fechaalta,
       reparado: ( this.estaReparado ? 1 : 0 ),
       fechareparacion: regStopForm.value.fechareparacion,
     };
     //
-    this.datos.postServicioWEB( '/vehiculoskilometraje', deta )
+    this.datos.postServicioWEB( '/vehiculosdetenidos', deta )
       .subscribe( (dev: any) => {
           console.log(dev);
           this.grabando = false;
-          if ( dev.resultado === 'ok' ) {
+          if ( dev.datos[0].resultado === 'ok' ) {
             Swal.fire({ position: 'top-end',
                         icon: 'success',
                         title: 'Datos grabados con éxito',
@@ -384,7 +387,7 @@ export class VehiculosComponent implements OnInit {
             this.creando = false;
             this.id = 0;
           } else  {
-            Swal.fire( dev.datos );
+            Swal.fire( dev.datos[0].mensaje );
           }
       },
       (error) => {
