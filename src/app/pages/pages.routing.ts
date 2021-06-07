@@ -10,8 +10,11 @@ import { PresupIngresosComponent } from './presup-ingresos/presup-ingresos.compo
 import { ConductoresComponent } from './conductores/conductores.component';
 import { VehiculosComponent } from './vehiculos/vehiculos.component';
 import { EmpresasComponent } from './empresas/empresas.component';
-import { Vehi2conduComponent } from './vehi2condu/vehi2condu.component';
 import { TarifasComponent } from './tarifas/tarifas.component';
+import { TiposdeservicioComponent } from './tiposdeservicio/tiposdeservicio.component';
+import { TurnosComponent } from './turnos/turnos.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { EstadosComponent } from './estados/estados.component';
 
 const routes: Routes = [
     {
@@ -19,13 +22,15 @@ const routes: Routes = [
         component: PagesComponent,
         children: [
           { path: '',                  component: DashboardComponent,          data: { titulo: '' } },
-          { path: 'account-settings',  component: AccountSettingsComponent,    data: { titulo: 'Ajustes de cuenta' }},
-          { path: 'conductores',       component: ConductoresComponent,        data: { titulo: 'Conductores / Proveedores' }},
+          { path: 'conductores',       component: ConductoresComponent,        data: { titulo: 'Conductores' }},
           { path: 'vehiculos',         component: VehiculosComponent,          data: { titulo: 'Vehículos' }},
-          { path: 'empresas',          component: EmpresasComponent,           data: { titulo: 'Empresas / Clientes' }},
-          { path: 'empresas',          component: EmpresasComponent,           data: { titulo: 'Empresas / Clientes' }},
-          { path: 'vehi2condu',        component: Vehi2conduComponent,         data: { titulo: 'Asignación de Vehículos a Conductores' }},
+          { path: 'empresas',          component: EmpresasComponent,           data: { titulo: 'Empresas' }},
           { path: 'tarifas',           component: TarifasComponent,            data: { titulo: 'Tarifas' }},
+          { path: 'servicios',         component: TiposdeservicioComponent,    data: { titulo: 'Tipos de Servicio' }},
+          { path: 'turnos',            component: TurnosComponent,             data: { titulo: 'Turnos' }},
+          { path: 'estados',           component: EstadosComponent,            data: { titulo: 'Estados' }},
+          { path: 'usuarios',          component: UsuariosComponent,           data: { titulo: 'Usuarios' }},
+          { path: 'account-settings',  component: AccountSettingsComponent,    data: { titulo: 'Ajustes de cuenta' }},
           { path: 'presuping',         component: PresupIngresosComponent,     data: { titulo: 'Ingreso de Ordenes de Servicio' }},
         ]
     },

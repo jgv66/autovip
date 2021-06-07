@@ -7,11 +7,11 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 // modulos
 import { LoginService } from '../../services/login.service';
 import { DatosService } from '../../services/datos.service';
-
+import { UserxempresaComponent } from '../userxempresa/userxempresa.component';
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -22,10 +22,11 @@ export class EmpresasComponent implements OnInit {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
-  public dsCodigos: MatTableDataSource<any>;
-  public selection = new SelectionModel(true, []);
+  public dsClientes: MatTableDataSource<any>;
+  public dsProveedores: MatTableDataSource<any>;
 
-  dispColumns: string[] = ['empresa','fantasia','rut','departamento','trato','nombreadmin','cru'];
+  dispColumns: string[] = ['tipo','empresa','rut','direccion','telefonos','trato','horarios','cru'];
+  dispPColumns: string[] = ['tipo','empresa','rut','direccion','telefonos','horarios','cru'];
 
   cargando = false;
   grabando = false;
@@ -34,18 +35,27 @@ export class EmpresasComponent implements OnInit {
   filas = 0;
   filtro = '';
   tratos = [{codigo:'Tarifa Plana'},{codigo:'Descuentos'},{codigo:'Promoción'}]
+  tiposEmpresa = [{codigo:'E',descripcion: 'Empresa'},{codigo:'P', descripcion: 'Particular'}]
 
   // variables de conductor
   id = 0
+  entidad = '';
+  tipo = ''
   empresa = '';
   fantasia = '';
   rut = '';
+  direccion = '';
+  comuna = '';
+  telefonos = '';
+  email = '';
   departamento = '';
-  idadministra = '';
   trato = '';
+  horarios = '';
+  matrizdiaslaborales = [true,true,true,true,true,true,true];
 
   constructor( public loginService: LoginService,
                private datos: DatosService,
+               public dialog: MatDialog,
                private router: Router ) { }
 
   ngOnInit() {
@@ -53,28 +63,38 @@ export class EmpresasComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     //
-    this.cargarEmpresas();
-    this.loginService.UsuariosxEmpresa()
+    this.loginService.comunas();
+    this.cargarEmpresas('C');
+    this.cargarEmpresas('P');
   }
 
-  cargarEmpresas() {
+  cargarEmpresas( entidad ) {
     this.cargando = true;
     this.id = 0;
-    this.datos.getServicioWEB( '/empresastotal' )
+    this.datos.getServicioWEB( '/empresastotal', { entidad } )
         .subscribe( (dev: any) => {
             //
             console.log(dev);
-            this.cargando = false;
-            //
-            if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
-              Swal.fire('No existen empresas para desplegar');
-            } else {
-              this.filas = dev.datos.length;
-              // this.articulos = dev.datos.slice();
-              this.dsCodigos = new MatTableDataSource(dev.datos);
-              this.dsCodigos.paginator = this.paginator.toArray()[0];
-              this.dsCodigos.sort = this.sort.toArray()[0];
-              //
+            if ( entidad === 'C' ) {
+              this.cargando = false;
+              if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
+                Swal.fire('No existen clientes para desplegar');
+              } else {
+                this.dsClientes = new MatTableDataSource(dev.datos);
+                this.dsClientes.paginator = this.paginator.toArray()[0];
+                this.dsClientes.sort = this.sort.toArray()[0];
+                //
+              }
+            } else if ( entidad === 'P' ) {
+              this.cargando = false;
+              if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
+                Swal.fire('No existen proveedores para desplegar');
+              } else {
+                this.dsProveedores = new MatTableDataSource(dev.datos);
+                this.dsProveedores.paginator = this.paginator.toArray()[0];
+                this.dsProveedores.sort = this.sort.toArray()[0];
+                //
+              }
             }
         },
         (error) => {
@@ -82,13 +102,19 @@ export class EmpresasComponent implements OnInit {
         });
   }
 
-  aplicarFiltro( event ) {
+  aplicarFiltro( event, tipo ) {
     //
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dsCodigos.filter = filterValue.trim().toLowerCase();
-    //
-    if (this.dsCodigos.paginator) {
-      this.dsCodigos.paginator.firstPage();
+    if ( tipo === 'C' ) {
+      this.dsClientes.filter = filterValue.trim().toLowerCase();
+      if (this.dsClientes.paginator) {
+        this.dsClientes.paginator.firstPage();
+      }
+    } else if ( tipo === 'P' ) {
+      this.dsProveedores.filter = filterValue.trim().toLowerCase();
+      if (this.dsProveedores.paginator) {
+        this.dsProveedores.paginator.firstPage();
+      }
     }
     //
   }
@@ -98,17 +124,40 @@ export class EmpresasComponent implements OnInit {
     this.creando = editar;
     //
     this.id = row.id;
+    this.entidad = row.entidad;
+    this.tipo = row.tipo;
     this.empresa = row.empresa;
     this.fantasia = row.fantasia;
     this.rut = row.rut;
     this.departamento = row.departamento;
-    this.idadministra = row.idadministra;
     this.trato = row.trato;
+    this.direccion = row.direccion;
+    this.comuna = row.comuna;
+    this.telefonos = row.telefonos;
+    this.email = row.email;
+    this.horarios = row.horarios;
+    this.matrizdiaslaborales = this.deCodeDiasLaborales( row.diaslaborales );
     //
   }
 
-  grabarVehiculo(  regCliForm: NgForm  ) {
-    if ( regCliForm.invalid ) {
+  deCodeDiasLaborales( diaslaborales ) {
+    const dato = [];
+    for (let index = 0; index < diaslaborales.length; index++) {
+      const element = diaslaborales[index];
+      dato[index] = ( diaslaborales !== undefined || diaslaborales !== '' ) ? ( element === 'x' ) : false;
+    }
+    return dato;
+  }
+  codeDiasLaborales() {
+    let dato = '';
+    this.matrizdiaslaborales.forEach(element => {
+      dato += element === true ? 'x' : ' ';
+    });
+    return dato;
+  }
+
+  grabarEmpresa( regForm: NgForm  ) {
+    if ( regForm.invalid ) {
       Swal.fire({
         title: 'Error!',
         text: 'Debe definir los datos obligatorios para continuar con una grabación',
@@ -122,18 +171,26 @@ export class EmpresasComponent implements OnInit {
     //
     const deta = {
       id: this.id,
-      empresa: regCliForm.value.empresa,
-      fantasia: regCliForm.value.fantasia,
-      rut: regCliForm.value.rut,
-      trato: regCliForm.value.trato,
-      departamento: regCliForm.value.departamento,
-      idadministra: regCliForm.value.idadministra === undefined ? 0 : regCliForm.value.idadministra,
+      entidad: regForm.value.entidad,
+      tipo: regForm.value.tipo,
+      empresa: regForm.value.empresa,
+      fantasia: regForm.value.fantasia,
+      rut: regForm.value.rut,
+      departamento: regForm.value.departamento,
+      trato: regForm.value.trato,
+      direccion: regForm.value.direccion,
+      comuna: regForm.value.comuna,
+      telefonos: regForm.value.telefonos,
+      email: regForm.value.email,
+      horarios: regForm.value.horarios,
+      diaslaborales: this.codeDiasLaborales(), 
     };
     //
     this.datos.postServicioWEB( '/empresa', deta )
       .subscribe( (dev: any) => {
           console.log(dev);
           this.grabando = false;
+          const entidad = regForm.value.entidad;
           if ( dev.resultado === 'ok' ) {
             Swal.fire({ position: 'top-end',
                         icon: 'success',
@@ -141,8 +198,8 @@ export class EmpresasComponent implements OnInit {
                         showConfirmButton: false,
                         timer: 1500
             });
-            regCliForm.reset();
-            this.cargarEmpresas();
+            regForm.reset();
+            this.cargarEmpresas( entidad );
             this.creando = false;
             this.id = 0;
           } else  {
@@ -170,21 +227,21 @@ export class EmpresasComponent implements OnInit {
       confirmButtonText: 'Sí, borrarlo!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.borraRegistro( row.id );
+        this.borraRegistro( row.id, row.tipo );
       }
     })
   }
 
-  borraRegistro( id ) {
+  borraRegistro( id, tipo ) {
     this.datos.postServicioWEB( '/borraempresa', { id } )
     .subscribe( (dev: any) => {
         if ( dev.resultado === 'ok' ) {
           Swal.fire(
             'Borrado!',
-            'El registro del vehiculo ha sido borrado del sistema.',
+            'El registro ha sido borrado del sistema.',
             'success'
           );
-          this.cargarEmpresas();
+          this.cargarEmpresas( tipo );
           this.id = 0;
         } else  {
           Swal.fire( dev.datos );
@@ -195,4 +252,19 @@ export class EmpresasComponent implements OnInit {
     });
   }
 
+  verUsuarios( row ) {
+    //
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.data = { empresa: row };
+    //
+    const dialogRef = this.dialog.open( UserxempresaComponent, dialogConfig );
+    //
+    dialogRef.afterClosed().subscribe(
+        data => console.log("Dialog output:", data)
+    );  
+    //
+  }
+  
 }

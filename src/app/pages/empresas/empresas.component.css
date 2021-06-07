@@ -52,6 +52,7 @@ th {
 
 .x800 {
     width: 800px !important;
+    height: 700px !important;
 }
 
 
@@ -60,8 +61,8 @@ th {
 .modal-content {
     width: 800px !important;
     max-width: 800px !important;
-    height: 450px !important;
-    max-height: 450px !important;
+    height: 510px !important;
+    max-height: 510px !important;
 }
 
 .modal-dialog {
@@ -79,6 +80,43 @@ select option {
     display: block;
     text-overflow: ellipsis;
     max-height: 200px;
+}
+
+.tipo {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.direccion {
+    flex: none;
+    max-width: 420px !important;
+    width: 420px !important;
+    padding-left: 3px !important;
+    text-align: left;
+}
+
+.telefonos {
+    flex: none;
+    max-width: 230px !important;
+    width: 230px !important;
+    text-align: center;
+}
+
+.horarios {
+    flex: none;
+    max-width: 180px !important;
+    width: 180px !important;
+    text-align: center;
+}
+
+.email {
+    flex: none;
+    max-width: 230px !important;
+    width: 230px !important;
+    text-align: left;
 }
 
 .empresa {
@@ -117,7 +155,7 @@ select option {
     text-align: left;
 }
 
-.nombreadmin {
+.trato {
     flex: none;
     max-width: 250px !important;
     width: 250px !important;
@@ -127,8 +165,8 @@ select option {
 .acciones {
     margin-right: 15px;
     flex: none;
-    max-width: 150px !important;
-    width: 150px !important;
+    max-width: 200px !important;
+    width: 200px !important;
     text-align: center;
 }
 

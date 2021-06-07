@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
 @NgModule({
   declarations: [],
   imports: [
@@ -22,7 +23,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatIconModule,
     MatTabsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatChipsModule,
   ],
   exports: [
     MatTableModule,
@@ -33,7 +36,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatIconModule,
     MatTabsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatChipsModule,
   ],
 })
 export class MaterialModule { }

@@ -1,4 +1,10 @@
 <div class="form-row mt-2 mb-2 ">
+    <div class="col-0.9" style="margin-top: 13px;">
+        <i class="mdi mdi-refresh mdi-24px" (click)="cargarConductores()"></i>
+    </div>
+    <div class="col-1.9" style="max-height: 50px; height: 50px;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrear" style="margin-top: 10px;">Crear un conductor</button>
+    </div>
     <div class="col-4">
         <mat-form-field appearance="" style="margin-left: 15px;">
             <mat-label>Filtrar</mat-label>
@@ -8,11 +14,8 @@
           </button>
         </mat-form-field>
     </div>
-    <div class="col-3" style="max-height: 50px; height: 50px;position: absolute;right: 10px;">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrear" style="margin-top: 10px;">Crear un conductor</button>
-    </div>
 </div>
-
+<mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dsCodigos" matSort>
         <!--  -->

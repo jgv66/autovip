@@ -24,10 +24,12 @@ export class VehiculosComponent implements OnInit {
   public dsCodigos: MatTableDataSource<any>;
   public dsKilomet: MatTableDataSource<any>;
   public dsDetenci: MatTableDataSource<any>;
-  
+  public dsConduct: MatTableDataSource<any>;
+    
   dispColumns:  string[] = ['marca','modelo','anno','patente','empresa','tipodeservicio','soap','circulacion','taximetro','serviciotecnico','cru'];
   dispKColumns: string[] = ['marca','modelo','anno','patente','conductor','kmactual','fecharegistro','proxmantencion','diasproxmantencion','cru'];
   dispSColumns: string[] = ['marca','modelo','anno','patente','conductor','kmactual','motivo','responsable','fechadetencion','fechaalta','textoestado','cru'];
+  dispCColumns: string[] = ['fechaini','fechafin','conductor','licencia','fechavenclicencia','marca','modelo','patente','cru'];
 
   cargando = false;
   grabando = false;
@@ -68,6 +70,9 @@ export class VehiculosComponent implements OnInit {
   fechareparacion: Date;
   reparado = 0;
   //
+  fechaini: Date;
+  fechafin: Date;
+
   constructor( public loginService: LoginService,
                private datos: DatosService,
                private router: Router ) { }
@@ -90,7 +95,8 @@ export class VehiculosComponent implements OnInit {
   refreshAll() {
     this.cargarVehiculos();
     this.cargarKilometraje();
-    this.cargarDetencion()
+    this.cargarDetencion();
+    this.cargarAsignaciones();
   }
 
   cargarVehiculos() {
@@ -158,6 +164,30 @@ export class VehiculosComponent implements OnInit {
           Swal.fire(error);
         });
   }
+  cargarAsignaciones() {
+    this.id = 0;
+    this.cargando = true;
+    this.datos.getServicioWEB( '/vehi2condu' )
+        .subscribe( (dev: any) => {
+            //
+            // console.log(dev);
+            this.cargando = false;
+            //
+            if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
+              Swal.fire('No existen asignaciones de vehículos v/s conductores');
+            } else {
+              this.filas = dev.datos.length;
+              // this.asignaciones = dev.datos.slice();
+              this.dsConduct = new MatTableDataSource(dev.datos);
+              this.dsConduct.paginator = this.paginator.toArray()[0];
+              this.dsConduct.sort = this.sort.toArray()[0];
+              //
+            }
+        },
+        (error) => {
+          Swal.fire(error);
+        });
+  }
 
   aplicarFiltro( event, tab ) {
     //
@@ -177,7 +207,12 @@ export class VehiculosComponent implements OnInit {
       this.dsDetenci.filter = filterValue.trim().toLowerCase();
       if (this.dsDetenci.paginator) {
         this.dsDetenci.paginator.firstPage();
-      }    
+      }       
+    } else if ( tab === 'conductor' ) {
+        this.dsConduct.filter = filterValue.trim().toLowerCase();
+        if (this.dsConduct.paginator) {
+          this.dsConduct.paginator.firstPage();
+        }    
     }
   }
 
@@ -229,6 +264,17 @@ export class VehiculosComponent implements OnInit {
     this.fechaalta = row.fechaalta;
     this.estaReparado = row.reparado;
     this.fechareparacion = row.fechareparacion;
+    //
+  }
+  verAsignacion( row, editar ) {
+    //
+    this.creando = editar;
+    //
+    this.id = row.id
+    this.idvehiculo = row.idvehiculo;
+    this.idconductor = row.idconductor;
+    this.fechaini = row.fechaini;
+    this.fechafin = row.fechafin;
     //
   }
 
@@ -375,7 +421,7 @@ export class VehiculosComponent implements OnInit {
       .subscribe( (dev: any) => {
           console.log(dev);
           this.grabando = false;
-          if ( dev.datos[0].resultado === 'ok' ) {
+          if ( dev.datos[0].resultado === true ) {
             Swal.fire({ position: 'top-end',
                         icon: 'success',
                         title: 'Datos grabados con éxito',
@@ -392,6 +438,55 @@ export class VehiculosComponent implements OnInit {
       },
       (error) => {
         this.grabando = false;
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Salir'
+        })
+      });
+  }
+  grabarAsignacion( regConForm ) {
+    if ( regConForm.invalid ) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Debe definir los datos obligatorios para continuar con una grabación',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+      return;
+    }
+    //
+    this.grabando = true;
+    //
+    const deta = {
+      id: this.id,
+      idconductor: regConForm.value.idconductor,
+      idvehiculo: regConForm.value.idvehiculo,
+      fechaini: regConForm.value.fechaini,
+      fechafin: regConForm.value.fechafin,
+    };
+    //
+    this.datos.postServicioWEB( '/vehi2condu', deta )
+      .subscribe( (dev: any) => {
+          console.log(dev);
+          this.grabando = false;
+          if ( dev.resultado === 'ok' ) {
+            Swal.fire({ position: 'top-end',
+                        icon: 'success',
+                        title: 'Datos grabados con éxito',
+                        showConfirmButton: false,
+                        timer: 1500
+            });
+            regConForm.reset();
+            this.cargarAsignaciones();
+            this.creando = false;
+            this.id = 0;
+          } else  {
+            Swal.fire( dev.datos );
+          }
+      },
+      (error) => {
         Swal.fire({
           title: 'Error!',
           text: error,
@@ -496,6 +591,41 @@ export class VehiculosComponent implements OnInit {
             'success'
           );
           this.cargarDetencion();
+          this.id = 0;
+        } else  {
+          Swal.fire( dev.datos );
+        }
+    },
+    (error) => {
+      Swal.fire('ERROR', error);
+    });
+  }
+
+  eliminarAsignacion( row ) {
+    Swal.fire({
+      title: 'Esta seguro?',
+      text: "No podrá revertir esta decisión",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrarlo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.borraRegistroCon( row.id );
+      }
+    })
+  }
+  borraRegistroCon( id ) {
+    this.datos.postServicioWEB( '/borravehi2condu', { id } )
+    .subscribe( (dev: any) => {
+        if ( dev.resultado === 'ok' ) {
+          Swal.fire(
+            'Borrado!',
+            'El registro del vehiculo a conductor ha sido borrado del sistema.',
+            'success'
+          );
+          this.cargarAsignaciones();
           this.id = 0;
         } else  {
           Swal.fire( dev.datos );

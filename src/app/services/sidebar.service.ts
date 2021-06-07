@@ -7,20 +7,17 @@ export class SidebarService {
 
   menu: any[] = [
     {
-      titulo: ' Ordenes de Trabajo ',
+      titulo: ' Viejes y Servicios ',
       icono: 'mdi mdi-worker',
       submenu: [
-
-        { titulo: 'Ingresar Orden Trabajo',  url: 'presuping'     },
-        { titulo: 'Asignar Técnico a OT',    url: 'presupasigtec' },
-        { titulo: 'Servicio Técnico',        url: 'presupsertec'  },
-        { titulo: 'Cerrar Orden de Trabajo', url: 'presupcietec'  },
-        { titulo: 'Consultar',               url: 'presupconsulta'},
-        { titulo: 'Informes',                url: 'presupinforme' },
+        { titulo: 'Órdenes de Servicio',      url: 'presuping' },
+        { titulo: 'Conductores en Ruta',      url: 'presuping' },
+        { titulo: 'Operaciones de excepción', url: 'presuping' },
+        { titulo: 'Consultas',                url: 'presuping' },
+        { titulo: 'Reportes',                 url: 'presuping' },
       ]
     },
   ];
-
   maestros: any[] = [
     {
       titulo: ' Tablas y Maestros',
@@ -28,13 +25,12 @@ export class SidebarService {
       submenu: [
         { titulo: 'Conductores',              url: 'conductores'  },
         { titulo: 'Vehículos',                url: 'vehiculos'    },
-        { titulo: 'Vehículos a Conductores',  url: 'vehi2condu'   },
-        { titulo: 'Empresas / Clientes',      url: 'empresas'     },  /** dentro de la empresa van los centros de costo */
+        { titulo: 'Empresas',                 url: 'empresas'     },  /** dentro de la empresa van los centros de costo */
         { titulo: 'Tarifas',                  url: 'tarifas'      },
-        { titulo: 'Tipos de Servicio',        url: 'usuarios'     },
+        { titulo: 'Tipos de Servicio',        url: 'servicios'    },
         { titulo: 'Usuarios',                 url: 'usuarios'     },
-        { titulo: 'Estados',                  url: 'usuarios'     },
-        { titulo: 'Turnos',                   url: 'usuarios'     },
+        { titulo: 'Estados',                  url: 'estados'      },
+        { titulo: 'Turnos',                   url: 'turnos'       },
       ]
     },
   ];

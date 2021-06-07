@@ -16,8 +16,13 @@ import { PresupIngresosComponent } from './presup-ingresos/presup-ingresos.compo
 import { ConductoresComponent } from './conductores/conductores.component';
 import { VehiculosComponent } from './vehiculos/vehiculos.component';
 import { EmpresasComponent } from './empresas/empresas.component';
-import { Vehi2conduComponent } from './vehi2condu/vehi2condu.component';
 import { TarifasComponent } from './tarifas/tarifas.component';
+import { TiposdeservicioComponent } from './tiposdeservicio/tiposdeservicio.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
+import { TurnosComponent } from './turnos/turnos.component';
+import { EstadosComponent } from './estados/estados.component';
+import { UserxempresaComponent } from './userxempresa/userxempresa.component';
+import { UserxempresagetComponent } from './userxempresaget/userxempresaget.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +33,14 @@ import { TarifasComponent } from './tarifas/tarifas.component';
     ConductoresComponent,
     VehiculosComponent,
     EmpresasComponent,
-    Vehi2conduComponent,
     TarifasComponent,
+    TiposdeservicioComponent,
+    UsuariosComponent,
+    TurnosComponent,
+    EstadosComponent,
+    EmpresasComponent,
+    UserxempresaComponent,
+    UserxempresagetComponent,
   ],
   exports: [
     CommonModule,
@@ -42,8 +53,13 @@ import { TarifasComponent } from './tarifas/tarifas.component';
     ConductoresComponent,
     VehiculosComponent,
     EmpresasComponent,
-    Vehi2conduComponent,
     TarifasComponent,
+    TiposdeservicioComponent,
+    UsuariosComponent,
+    TurnosComponent,
+    EstadosComponent,
+    UserxempresaComponent,
+    UserxempresagetComponent,    
   ],
   imports: [
     CommonModule,

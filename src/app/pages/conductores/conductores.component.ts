@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
 // modulos
 import { LoginService } from 'src/app/services/login.service';
 import { DatosService } from 'src/app/services/datos.service';
@@ -23,7 +22,6 @@ export class ConductoresComponent implements OnInit {
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
 
   public dsCodigos: MatTableDataSource<any>;
-  public selection = new SelectionModel(true, []);
 
   dispColumns: string[] = ['nombres','email','direccion','telefonos','vehiculo','patente','tipodeservicio','estado','cru'];
 

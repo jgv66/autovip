@@ -187,6 +187,21 @@ select option {
     padding-right: 10px;
 }
 
+.fechas {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.licencia {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+}
+
 
 /* modal backdrop fix */
 

@@ -1,79 +1,167 @@
-<div class="form-row mt-2 mb-2 ">
-    <div class="col-4">
-        <mat-form-field appearance="" style="margin-left: 15px;">
-            <mat-label>Filtrar</mat-label>
-            <input matInput (keyup)="aplicarFiltro( $event )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
-            <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
-          <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
-        </button>
-        </mat-form-field>
-    </div>
-    <div class="col-3" style="max-height: 50px; height: 50px;position: absolute;right: 10px;">
-        <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrear" style="margin-top: 10px;">Crear una Empresa o Cliente</button>
-    </div>
-</div>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Clientes">
+        <div class="form-row mt-2 mb-2 ">
+            <div class="col-0.9" style="margin-top: 13px;">
+                <i class="mdi mdi-refresh mdi-24px" (click)="cargarEmpresas('C')"></i>
+            </div>
+            <div class="col-1.9" style="max-height: 50px; height: 50px;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrear" style="margin-top: 10px;">Crear cliente</button>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="" style="margin-left: 15px;">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="aplicarFiltro( $event, 'C' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
+                    <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
+                <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
+                </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dsClientes" matSort>
+                <!-- -->
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tipo">Tipo</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="tipo"> {{ row.tipo === "E" ? "Empresa" : "Particular" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="empresa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="empresa">Nombre o Razón Social</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="empresa"> {{row.empresa}} <br> {{row.fantasia}} </td>
+                </ng-container>
+                <ng-container matColumnDef="rut">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="rut">RUT</th>
+                    <td mat-cell *matCellDef="let row" class="rut">{{row.rut}}</td>
+                </ng-container>
+                <ng-container matColumnDef="direccion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="direccion">Dirección</th>
+                    <td mat-cell *matCellDef="let row" class="direccion">{{row.direccion}}, {{row.comuna}}</td>
+                </ng-container>
+                <ng-container matColumnDef="telefonos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="telefonos">Teléfonos<br>Email</th>
+                    <td mat-cell *matCellDef="let row" class="telefonos">{{row.telefonos}} <br> {{row.email}}</td>
+                </ng-container>
+                <ng-container matColumnDef="trato">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="trato">Trato o Convenio</th>
+                    <td mat-cell *matCellDef="let row" class="trato"><b> {{ row.trato }} </b></td>
+                </ng-container>
+                <ng-container matColumnDef="horarios">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="horarios">Horarios</th>
+                    <td mat-cell *matCellDef="let row" class="horarios"> {{row.horarios}} </td>
+                </ng-container>
+                <!-- cru -->
+                <ng-container matColumnDef="cru">
+                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
+                    <td mat-cell *matCellDef="let row" class="acciones">
+                        <a *ngIf=" row.tipo === 'E' " class="has-arrow waves-effect text-dark" (click)="verUsuarios( row )" style="margin-top:10px;">
+                            <i class="mdi mdi-account-multiple mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                        <a class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, false )" data-toggle="modal" data-target="#ModalCenteredClientes" style="margin-top:10px;">
+                            <i class="mdi mdi-eye mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, true )" data-toggle="modal" data-target="#ModalCenteredCrear" style="margin-top:10px;">
+                            <i class="mdi mdi-lead-pencil mdi-24px"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEmpresa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                            <i class="mdi mdi-delete mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                    </td>
+                </ng-container>
 
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dsCodigos" matSort>
-        <!--   -->
-        <ng-container matColumnDef="empresa">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="empresa">Nombre o Razón Social</th>
-            <td mat-cell *matCellDef="let row" style.color="red" class="empresa"> {{row.empresa}} </td>
-        </ng-container>
-        <ng-container matColumnDef="rut">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="rut">RUT</th>
-            <td mat-cell *matCellDef="let row" class="rut">{{row.rut}}</td>
-        </ng-container>
-        <ng-container matColumnDef="fantasia">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="fantasia">Nombre de Fantasía</th>
-            <td mat-cell *matCellDef="let row" class="fantasia"> {{row.fantasia}}</td>
-        </ng-container>
-        <ng-container matColumnDef="departamento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="departamento">Departamento</th>
-            <td mat-cell *matCellDef="let row" class="departamento"> {{row.departamento }}</td>
-        </ng-container>
-        <ng-container matColumnDef="trato">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="trato">Trato o Convenio</th>
-            <td mat-cell *matCellDef="let row" class="trato"> {{row.trato }} </td>
-        </ng-container>
-        <ng-container matColumnDef="nombreadmin">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="nombreadmin">Administrador</th>
-            <td mat-cell *matCellDef="let row" class="nombreadmin"> {{row.nombreadmin}} </td>
-        </ng-container>
-        <!-- cru -->
-        <ng-container matColumnDef="cru">
-            <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
-            <td mat-cell *matCellDef="let row" class="acciones">
-                <a class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, false )" data-toggle="modal" data-target="#ModalCenteredCrear" style="margin-top:10px;">
-                    <i class="mdi mdi-eye mdi-24px"></i>
-                </a>&nbsp;&nbsp;
-                <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, true )" data-toggle="modal" data-target="#ModalCenteredCrear" style="margin-top:10px;">
-                    <i class="mdi mdi-lead-pencil mdi-24px"></i>
-                </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a *ngIf=" loginService.usuario.admin " (click)="eliminarEmpresa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
-                    <i class="mdi mdi-delete mdi-24px"></i>
-                </a>&nbsp;&nbsp;
-            </td>
-        </ng-container>
+                <tr mat-header-row *matHeaderRowDef="dispColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispColumns;"></tr>
 
-        <tr mat-header-row *matHeaderRowDef="dispColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: dispColumns;"></tr>
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
+                </tr>
 
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
-        </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+    </mat-tab>
+    <mat-tab label="Proveedores">
+        <div class="form-row mt-2 mb-2 ">
+            <div class="col-0.9" style="margin-top: 13px;">
+                <i class="mdi mdi-refresh mdi-24px" (click)="cargarEmpresas('P')"></i>
+            </div>
+            <div class="col-1.9" style="max-height: 50px; height: 50px;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredProveedor" style="margin-top: 10px;">Crear Proveedor</button>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="" style="margin-left: 15px;">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="aplicarFiltro( $event, 'P' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
+                    <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
+                        <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dsProveedores" matSort>
+                <!-- -->
+                <ng-container matColumnDef="tipo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tipo">Tipo</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="tipo"> {{ row.tipo === "E" ? "Empresa" : "Particular" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="empresa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="empresa">Nombre o Razón Social</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="empresa"> {{row.empresa}} </td>
+                </ng-container>
+                <ng-container matColumnDef="rut">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="rut">RUT</th>
+                    <td mat-cell *matCellDef="let row" class="rut">{{row.rut}}</td>
+                </ng-container>
+                <ng-container matColumnDef="direccion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="direccion">Dirección</th>
+                    <td mat-cell *matCellDef="let row" class="direccion">{{row.direccion}}, {{row.comuna}}</td>
+                </ng-container>
+                <ng-container matColumnDef="telefonos">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="telefonos">Teléfonos<br>Email</th>
+                    <td mat-cell *matCellDef="let row" class="telefonos">{{row.telefonos}} <br> {{row.email}}</td>
+                </ng-container>
+                <ng-container matColumnDef="horarios">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="horarios">Horarios</th>
+                    <td mat-cell *matCellDef="let row" class="horarios"> {{row.horarios}} </td>
+                </ng-container>
+                <!-- cru -->
+                <ng-container matColumnDef="cru">
+                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
+                    <td mat-cell *matCellDef="let row" class="acciones">
+                        <a class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, false )" data-toggle="modal" data-target="#ModalCenteredProveedor" style="margin-top:10px;">
+                            <i class="mdi mdi-eye mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, true )" data-toggle="modal" data-target="#ModalCenteredProveedor" style="margin-top:10px;">
+                            <i class="mdi mdi-lead-pencil mdi-24px"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEmpresa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                            <i class="mdi mdi-delete mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                    </td>
+                </ng-container>
 
-    </table>
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
-</div>
+                <tr mat-header-row *matHeaderRowDef="dispPColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispPColumns;"></tr>
 
-<!-- Modal crear/modificar -->
-<div class="modal fade" id="ModalCenteredCrear" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredCrearLabel" aria-hidden="true">
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
+                </tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<!-- Modal crear/modificar clientes-->
+<div class="modal fade" id="ModalCenteredClientes" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredClientesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered x800" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="ModalCenteredCrearLabel">Mantención de Empresas / Clientes</h2>
+                <h2 class="modal-title" id="ModalCenteredCrearLabel">Mantención de Clientes</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
           </button>
@@ -82,7 +170,149 @@
                 <form #regCliForm="ngForm">
                     <div class="row">
                         <!--  -->
+                        <div class="col-2" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo</mat-label>
+                                <select matNativeControl [(ngModel)]="tipo" name="tipo" required>
+                              <option value="" selected></option>
+                              <option *ngFor="let ts of tiposEmpresa" [value]="ts.codigo">{{ ts.descripcion }}</option>
+                            </select>
+                            </mat-form-field>
+                        </div>
                         <div class="col-5" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre o Razón Social Empresa</mat-label>
+                                <input type="text" matInput name="empresa" [(ngModel)]="empresa" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-3" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre de Fantasía</mat-label>
+                                <input type="text" matInput name="fantasia" [(ngModel)]="fantasia" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-2" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>RUT</mat-label>
+                                <input type="text" matInput name="rut" [(ngModel)]="rut" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Dirección</mat-label>
+                                <input type="text" matInput name="direccion" [(ngModel)]="direccion" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-7" style="margin-top: 10px;">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Comuna</mat-label>
+                                <select matNativeControl [(ngModel)]="comuna" name="comuna" required>
+                                  <option value="" selected></option>
+                                  <option *ngFor="let comu of loginService.comunasPermitidas" [value]="comu.comuna">{{ comu.comuna }}</option>
+                              </select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Teléfonos</mat-label>
+                                <input type="text" matInput name="telefonos" [(ngModel)]="telefonos">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput name="email" [(ngModel)]="email">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Departamento</mat-label>
+                                <input type="text" [value]="departamento" matInput name="departamento" [(ngModel)]="departamento">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Horarios</mat-label>
+                                <input type="text" [value]="horarios" matInput name="horarios" [(ngModel)]="horarios">
+                            </mat-form-field>
+                        </div>
+                        <p style="margin-top: 10px;margin-right: 5px;margin-left: 15px;"> Días de Atención: </p>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[0]" name="lu">Lu</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[1]" name="ma">Ma</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[2]" name="mi">Mi</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[3]" name="ju">Ju</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[4]" name="vi">Vi</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[5]" name="sa">Sá</mat-checkbox>
+                        </div>
+                        <div class="col-0.9" style="margin-top: 10px;margin-right: 5px;">
+                            <mat-checkbox [(ngModel)]="matrizdiaslaborales[6]" name="do">Do</mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Trato o Convenio</mat-label>
+                                <select matNativeControl [(ngModel)]="trato" name="trato" required>
+                                    <option value="" selected></option>
+                                    <option *ngFor="let ts of tratos" [value]="ts.codigo">{{ ts.codigo }}</option>
+                                </select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+            <div class="modal-footer" style="margin-top: 0px;">
+                <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarEmpresa( regCliForm )">Grabar y actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal crear/modificar proveedores-->
+<div class="modal fade" id="ModalCenteredProveedor" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered x800" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="ModalCenteredCrearLabel">Mantención de Proveedores</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <form #regCliForm="ngForm">
+                    <div class="row">
+                        <!--  -->
+                        <div class="col-2" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Tipo</mat-label>
+                                <select matNativeControl [(ngModel)]="tipo" name="tipo" required>
+                              <option value="" selected></option>
+                              <option *ngFor="let ts of tiposEmpresa" [value]="ts.codigo">{{ ts.descripcion }}</option>
+                            </select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-7" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre o Razón Social Empresa</mat-label>
                                 <input type="text" matInput name="empresa" [(ngModel)]="empresa" required>
@@ -94,46 +324,54 @@
                                 <input type="text" matInput name="rut" [(ngModel)]="rut" required>
                             </mat-form-field>
                         </div>
-                        <div class="col-4" style="margin-top: 10px;">
+                    </div>
+                    <div class="row">
+                        <div class="col-5" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Nombre de Fantasía</mat-label>
-                                <input type="text" matInput name="fantasia" [(ngModel)]="fantasia" required>
+                                <mat-label>Dirección</mat-label>
+                                <input type="text" matInput name="direccion" [(ngModel)]="direccion" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-7" style="margin-top: 10px;">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Comuna</mat-label>
+                                <select matNativeControl [(ngModel)]="comuna" name="comuna" required>
+                                  <option value="" selected></option>
+                                  <option *ngFor="let comu of loginService.comunasPermitidas" [value]="comu.comuna">{{ comu.comuna }}</option>
+                              </select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Teléfonos</mat-label>
+                                <input type="text" matInput name="telefonos" [(ngModel)]="telefonos">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-7" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput name="email" [(ngModel)]="email">
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
-                                <mat-label>Trato o Convenio</mat-label>
-                                <select matNativeControl [(ngModel)]="trato" name="trato" required>
-                              <option value="" selected></option>
-                              <option *ngFor="let ts of tratos" [value]="ts.codigo">{{ ts.codigo }}</option>
-                            </select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4" style="margin-top: 10px;">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Departamento</mat-label>
-                                <input type="text" [value]="departamento" matInput name="departamento" [(ngModel)]="departamento">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4" style="margin-top: 10px;">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Administrador o Encargado</mat-label>
-                                <select matNativeControl [(ngModel)]="idadministra" name="estadokitemergencia">
-                              <option value="" selected></option>
-                              <option *ngFor="let ts of loginService.usuariosPorEmpresa" [value]="ts.id">{{ ts.nombre }}</option>
-                            </select>
+                                <mat-label>Horarios</mat-label>
+                                <input type="text" [value]="horarios" matInput name="horarios" [(ngModel)]="horarios">
                             </mat-form-field>
                         </div>
                     </div>
                 </form>
-                <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
-                <div class="modal-footer" style="margin-top: 0px;">
-                    <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarVehiculo( regCliForm )">Grabar y actualizar</button>
-                </div>
+            </div>
+
+            <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+            <div class="modal-footer" style="margin-top: 0px;">
+                <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarEmpresa( regCliForm )">Grabar y actualizar</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <mat-tab-group animationDuration="0ms">
-    <mat-tab label="Definición y Mantención">
+    <mat-tab label="Definición">
         <div class="form-row mt-2 mb-2 ">
             <div class="col-0.9" style="margin-top: 13px;">
                 <i class="mdi mdi-refresh mdi-24px" (click)="cargarVehiculos()"></i>
@@ -89,7 +89,7 @@
             <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
         </div>
     </mat-tab>
-    <mat-tab label="Kilometraje por Vehículo">
+    <mat-tab label="Kilometraje">
         <div class="form-row mt-2 mb-2 ">
             <div class="col-0.9" style="margin-top: 13px;">
                 <i class="mdi mdi-refresh mdi-24px" (click)="cargarKilometraje()"></i>
@@ -107,6 +107,7 @@
                 </mat-form-field>
             </div>
         </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dsKilomet" matSort>
                 <!--   -->
@@ -136,11 +137,11 @@
                 </ng-container>
                 <ng-container matColumnDef="fecharegistro">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="fecharegistro">Fecha del<br>Registro</th>
-                    <td mat-cell *matCellDef="let row" class="fecharegistro"> {{row.fecharegistro}} </td>
+                    <td mat-cell *matCellDef="let row" class="fecharegistro"> {{row.fecharegistro | date:"dd/MM/yyyy"}} </td>
                 </ng-container>
                 <ng-container matColumnDef="proxmantencion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="proxmantencion">Próxima<br>Mantención</th>
-                    <td mat-cell *matCellDef="let row" class="proxmantencion"> {{row.proxmantencion }} </td>
+                    <td mat-cell *matCellDef="let row" class="proxmantencion"> {{row.proxmantencion | date:"dd/MM/yyyy" }} </td>
                 </ng-container>
                 <ng-container matColumnDef="diasproxmantencion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="diasproxmantencion">Días Prox.<br>Mantención</th>
@@ -174,7 +175,7 @@
             <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
         </div>
     </mat-tab>
-    <mat-tab label="Detenciones por Vehículo">
+    <mat-tab label="Detenciones">
         <div class="form-row mt-2 mb-2 ">
             <div class="col-0.9" style="margin-top: 13px;">
                 <i class="mdi mdi-refresh mdi-24px" (click)="cargarDetencion()"></i>
@@ -185,7 +186,7 @@
             <div class="col-1.6" style="max-height: 50px; height: 50px;">
                 <button type="button" class="btn btn-primary" (click)="cargarDetencion( 1 )" data-target="#ModalCenteredStop" style="margin-top: 10px;">Histórico</button>
             </div>
-            <div class="col-4">
+            <div class="col-4" style="margin-left: 15px;">
                 <mat-form-field appearance="">
                     <mat-label>Filtrar</mat-label>
                     <input matInput (keyup)="aplicarFiltro( $event, 'detencion' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
@@ -195,6 +196,7 @@
                 </mat-form-field>
             </div>
         </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
         <div class="mat-elevation-z8">
             <table mat-table [dataSource]="dsDetenci" matSort>
                 <!--   -->
@@ -232,15 +234,15 @@
                 </ng-container>
                 <ng-container matColumnDef="fechadetencion">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="fechadetencion">Fecha de<br>Detención</th>
-                    <td mat-cell *matCellDef="let row" class="fechadetencion"> {{row.fechadetencion }}</td>
+                    <td mat-cell *matCellDef="let row" class="fechadetencion"> {{row.fechadetencion | date:"dd/MM/yyyy" }}</td>
                 </ng-container>
                 <ng-container matColumnDef="fechaalta">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="fechalta">Fecha de<br>Entrega</th>
-                    <td mat-cell *matCellDef="let row" class="fechalta"> {{row.fechaalta }}</td>
+                    <td mat-cell *matCellDef="let row" class="fechalta"> {{row.fechaalta | date:"dd/MM/yyyy" }}</td>
                 </ng-container>
                 <ng-container matColumnDef="textoestado">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="reparado">Estado</th>
-                    <td mat-cell *matCellDef="let row" class="reparado"> {{ row.textoestado }} </td>
+                    <td mat-cell *matCellDef="let row" class="reparado"><b> {{ row.textoestado }} </b></td>
                 </ng-container>
                 <!-- cru -->
                 <ng-container matColumnDef="cru">
@@ -271,6 +273,90 @@
             </table>
             <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
         </div>
+    </mat-tab>
+    <mat-tab label="Asignaciones">
+        <div class="form-row mt-2 mb-2 ">
+            <div class="col-0.9" style="margin-top: 13px;">
+                <i class="mdi mdi-refresh mdi-24px" (click)="cargarAsignaciones()"></i>
+            </div>
+            <div class="col-1.6" style="max-height: 50px; height: 50px;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredConductor" style="margin-top: 10px;">Asignar vehículo</button>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="" style="margin-left: 15px;">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="aplicarFiltro( $event, 'conductor' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
+                    <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
+                  <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
+                </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dsConduct" matSort>
+                <!--   -->
+                <ng-container matColumnDef="fechaini">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="fechas">Fecha Inicio</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="fechas"> {{row.fechaini | date:"dd/MM/yyyy"}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fechafin">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="fechas">Fecha Término</th>
+                    <td mat-cell *matCellDef="let row" class="fechas">{{row.fechafin | date:"dd/MM/yyyy"}}</td>
+                </ng-container>
+                <ng-container matColumnDef="conductor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="conductor">Conductor</th>
+                    <td mat-cell *matCellDef="let row" class="conductor"> {{row.nombres }}</td>
+                </ng-container>
+                <ng-container matColumnDef="licencia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="licencia">Licencia</th>
+                    <td mat-cell *matCellDef="let row" class="licencia"> {{row.licencia }}</td>
+                </ng-container>
+                <ng-container matColumnDef="fechavenclicencia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="fechas">Vencimiento<br>Licencia</th>
+                    <td mat-cell *matCellDef="let row" class="fechas"> {{row.fechavenclicencia | date:"dd/MM/yyyy" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="patente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="patente">Patente</th>
+                    <td mat-cell *matCellDef="let row" class="patente"> {{row.patente}} </td>
+                </ng-container>
+                <ng-container matColumnDef="marca">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="marca">Marca</th>
+                    <td mat-cell *matCellDef="let row" class="marca">{{ row.marca }}</td>
+                </ng-container>
+                <ng-container matColumnDef="modelo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="modelo">Modelo</th>
+                    <td mat-cell *matCellDef="let row" class="modelo"> {{ row.modelo }} </td>
+                </ng-container>
+                <ng-container matColumnDef="anno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="anno">Año</th>
+                    <td mat-cell *matCellDef="let row" class="anno"> {{row.anno}} </td>
+                </ng-container>
+                <!-- cru -->
+                <ng-container matColumnDef="cru">
+                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
+                    <td mat-cell *matCellDef="let row" class="acciones">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verAsignacion( row, true )" data-toggle="modal" data-target="#ModalCenteredConductor" style="margin-top:10px;">
+                            <i class="mdi mdi-lead-pencil mdi-24px"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarAsignacion( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                            <i class="mdi mdi-delete mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="dispCColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispCColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
+                </tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+
     </mat-tab>
 </mat-tab-group>
 
@@ -559,6 +645,65 @@
                     <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regStopForm.valid " data-dismiss="modal" (click)="grabarDetencion( regStopForm )">Grabar y actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal crear/modificar asignacion-->
+<div class="modal fade" id="ModalCenteredConductor" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredConductorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered x800" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="ModalCenteredConductorLabel">Asignación de Vehículos</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #regConForm="ngForm">
+                    <div class="row">
+                        <!--  -->
+                        <div class="col-6" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Vehículo</mat-label>
+                                <select matNativeControl [(ngModel)]="idvehiculo" name="idvehiculo" required>
+                                <option value="" selected></option>
+                                <option *ngFor="let veh of loginService.vehiculosPermitidos" [value]="veh.id">{{ veh.vehiculo }}</option>
+                              </select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Conductor</mat-label>
+                                <select matNativeControl [(ngModel)]="idconductor" name="idconductor" required>
+                            <option value="" selected></option>
+                            <option *ngFor="let cond of loginService.conductoresPermitidos" [value]="cond.id">{{ cond.nombres }}</option>
+                          </select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de asignación</mat-label>
+                                <input type="date" [value]="fechaini" matInput name="fechaini" [(ngModel)]="fechaini" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Fecha de término</mat-label>
+                                <input type="date" [value]="fechafin" matInput name="fechafin" [(ngModel)]="fechafin" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+                <div class="modal-footer" style="margin-top: 0px;">
+                    <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regConForm.valid " data-dismiss="modal" (click)="grabarAsignacion( regConForm )">Grabar y actualizar</button>
                 </div>
             </div>
         </div>
