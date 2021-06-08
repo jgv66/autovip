@@ -23,6 +23,7 @@ import { TurnosComponent } from './turnos/turnos.component';
 import { EstadosComponent } from './estados/estados.component';
 import { UserxempresaComponent } from './userxempresa/userxempresa.component';
 import { UserxempresagetComponent } from './userxempresaget/userxempresaget.component';
+import { ParametrosComponent } from './parametros/parametros.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { UserxempresagetComponent } from './userxempresaget/userxempresaget.comp
     EmpresasComponent,
     UserxempresaComponent,
     UserxempresagetComponent,
+    ParametrosComponent,
   ],
   exports: [
     CommonModule,

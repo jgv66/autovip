@@ -56,13 +56,13 @@
                         <a *ngIf=" row.tipo === 'E' " class="has-arrow waves-effect text-dark" (click)="verUsuarios( row )" style="margin-top:10px;">
                             <i class="mdi mdi-account-multiple mdi-24px"></i>
                         </a>&nbsp;&nbsp;
-                        <a class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, false )" data-toggle="modal" data-target="#ModalCenteredClientes" style="margin-top:10px;">
+                        <a class="has-arrow waves-effect text-dark" (click)="verCliente( row, false )" data-toggle="modal" data-target="#ModalCenteredClientes" style="margin-top:10px;">
                             <i class="mdi mdi-eye mdi-24px"></i>
                         </a>&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, true )" data-toggle="modal" data-target="#ModalCenteredCrear" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verCliente( row, true )" data-toggle="modal" data-target="#ModalCenteredClientes" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEmpresa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEntidad( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
@@ -130,13 +130,10 @@
                 <ng-container matColumnDef="cru">
                     <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
                     <td mat-cell *matCellDef="let row" class="acciones">
-                        <a class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, false )" data-toggle="modal" data-target="#ModalCenteredProveedor" style="margin-top:10px;">
-                            <i class="mdi mdi-eye mdi-24px"></i>
-                        </a>&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEmpresa( row, true )" data-toggle="modal" data-target="#ModalCenteredProveedor" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verProveedor( row, true )" data-toggle="modal" data-target="#ModalCenteredProveedor" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEmpresa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEntidad( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
@@ -283,7 +280,7 @@
             <div class="modal-footer" style="margin-top: 0px;">
                 <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarEmpresa( regCliForm )">Grabar y actualizar</button>
+                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarEntidad( regCliForm, 'C' )">Grabar y actualizar</button>
             </div>
         </div>
     </div>
@@ -296,29 +293,20 @@
             <div class="modal-header">
                 <h2 class="modal-title" id="ModalCenteredCrearLabel">Mantención de Proveedores</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form #regCliForm="ngForm">
+                <form #regProvForm="ngForm">
                     <div class="row">
                         <!--  -->
-                        <div class="col-2" style="margin-top: 10px;">
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Tipo</mat-label>
-                                <select matNativeControl [(ngModel)]="tipo" name="tipo" required>
-                              <option value="" selected></option>
-                              <option *ngFor="let ts of tiposEmpresa" [value]="ts.codigo">{{ ts.descripcion }}</option>
-                            </select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-7" style="margin-top: 10px;">
+                        <div class="col-8" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Nombre o Razón Social Empresa</mat-label>
                                 <input type="text" matInput name="empresa" [(ngModel)]="empresa" required>
                             </mat-form-field>
                         </div>
-                        <div class="col-3" style="margin-top: 10px;">
+                        <div class="col-4" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>RUT</mat-label>
                                 <input type="text" matInput name="rut" [(ngModel)]="rut" required>
@@ -346,7 +334,7 @@
                         <div class="col-5" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Teléfonos</mat-label>
-                                <input type="text" matInput name="telefonos" [(ngModel)]="telefonos">
+                                <input type="text" matInput name="telefonos" [(ngModel)]="telefonos" required>
                             </mat-form-field>
                         </div>
                         <div class="col-7" style="margin-top: 10px;">
@@ -371,7 +359,7 @@
             <div class="modal-footer" style="margin-top: 0px;">
                 <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regCliForm.valid " data-dismiss="modal" (click)="grabarEmpresa( regCliForm )">Grabar y actualizar</button>
+                <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regProvForm.valid " data-dismiss="modal" (click)="grabarEntidad( regProvForm, 'P' )">Grabar y actualizar</button>
             </div>
         </div>
     </div>

@@ -150,6 +150,40 @@ export class UserxempresaComponent implements OnInit {
         });
   }
   
-  eliminarUsuario( row ) {}
+  eliminarUsuario( row ) {
+    Swal.fire({
+      title: 'Esta seguro?',
+      text: "No podrá revertir esta decisión",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrarlo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.borraRegistro( row.id );
+      }
+    })
+  }
+
+  borraRegistro( id ) {
+    this.datos.postServicioWEB( '/delusuariosxempresa', { id } )
+      .subscribe( (dev: any) => {
+          if ( dev.resultado === 'ok' ) {
+            Swal.fire(
+              'Borrado!',
+              'El registro ha sido borrado del sistema.',
+              'success'
+            );
+            this.cargarUsuarios();
+            this.id = 0;
+          } else  {
+            Swal.fire( dev.datos );
+          }
+      },
+      (error) => {
+        Swal.fire('ERROR', error);
+      });
+  }  
 
 }

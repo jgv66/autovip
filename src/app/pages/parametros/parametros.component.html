@@ -1,0 +1,157 @@
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Tarifas">
+        <div class="form-row mt-2 mb-2 ">
+            <div class="col-0.9" style="margin-top: 13px;">
+                <i class="mdi mdi-refresh mdi-24px" (click)="cargarTarifas()"></i>
+            </div>
+            <div class="col-1.9" style="max-height: 50px; height: 50px;position: absolute;right: 10px;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrearTa" style="margin-top: 10px;">Crear Tarifa</button>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="" style="margin-left: 15px;">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="aplicarFiltro( $event, 'tarifa' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
+                    <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
+                        <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dsTarifas" matSort>
+                <!--   -->
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="descripcion">Tarifa</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="descripcion"> {{row.descripcion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="valor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="valor">Valor</th>
+                    <td mat-cell *matCellDef="let row" class="valor">{{row.valor | number:"1.0-0"}}</td>
+                </ng-container>
+                <!-- cru -->
+                <ng-container matColumnDef="cru">
+                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
+                    <td mat-cell *matCellDef="let row" class="acciones">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verTarifa( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearTa" style="margin-top:10px;">
+                            <i class="mdi mdi-lead-pencil mdi-24px"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarTarifa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                            <i class="mdi mdi-delete mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="dispTaColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispTaColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
+                </tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+    </mat-tab>
+    <mat-tab label="Turnos">
+    </mat-tab>
+    <mat-tab label="Estados">
+    </mat-tab>
+    <mat-tab label="Licencias">
+    </mat-tab>
+    <mat-tab label="Servicios">
+        <div class="form-row mt-2 mb-2 ">
+            <div class="col-0.9" style="margin-top: 13px;">
+                <i class="mdi mdi-refresh mdi-24px" (click)="cargarServicios()"></i>
+            </div>
+            <div class="col-1.9" style="max-height: 50px; height: 50px;position: absolute;right: 10px;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" (click)=" creando = true " data-target="#ModalCenteredCrearTa" style="margin-top: 10px;">Crear Tipo de Servicio</button>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="" style="margin-left: 15px;">
+                    <mat-label>Filtrar</mat-label>
+                    <input matInput (keyup)="aplicarFiltro( $event, 'servicio' )" name="filtroRetiro" [(ngModel)]="filtro" placeholder="digite algo..." #input>
+                    <button mat-button *ngIf=" filtro !== '' " matSuffix mat-icon-button aria-label="Clear" (click)=" filtro = '' ">
+                        <mat-icon class="mdi mdi-close mdi-6px"></mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dsServicios" matSort>
+                <!--   -->
+                <ng-container matColumnDef="tipodeservicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="tipodeservicio">Tipo de Servicio</th>
+                    <td mat-cell *matCellDef="let row" class="tipodeservicio">{{row.tipodeservicio}}</td>
+                </ng-container>
+                <ng-container matColumnDef="descripcion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="descripcion">Descripción</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="descripcion"> {{row.descripcion}} </td>
+                </ng-container>
+                <!-- cru -->
+                <ng-container matColumnDef="cru">
+                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
+                    <td mat-cell *matCellDef="let row" class="acciones">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verServicio( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearSe" style="margin-top:10px;">
+                            <i class="mdi mdi-lead-pencil mdi-24px"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarServicio( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                            <i class="mdi mdi-delete mdi-24px"></i>
+                        </a>&nbsp;&nbsp;
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="dispSeColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispSeColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
+                </tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<!-- Modal crear/modificar -->
+<div class="modal fade" id="ModalCenteredCrearTa" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredCrearTaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered x800" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="ModalCenteredCrearTaLabel">Mantención de Tarifas</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form #regTarifaForm="ngForm">
+                    <div class="row">
+                        <div class="col-8" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre o Descripción</mat-label>
+                                <input type="text" matInput name="descripcion" [(ngModel)]="descripcion" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Valor</mat-label>
+                                <input type="number" matInput name="valor" [(ngModel)]="valor" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </form>
+                <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+                <div class="modal-footer" style="margin-top: 0px;">
+                    <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regTarifaForm.valid " data-dismiss="modal" (click)="grabarTarifa( regTarifaForm )">Grabar y actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

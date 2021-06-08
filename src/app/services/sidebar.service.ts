@@ -25,12 +25,13 @@ export class SidebarService {
       submenu: [
         { titulo: 'Conductores',              url: 'conductores'  },
         { titulo: 'Vehículos',                url: 'vehiculos'    },
-        { titulo: 'Empresas',                 url: 'empresas'     },  /** dentro de la empresa van los centros de costo */
-        { titulo: 'Tarifas',                  url: 'tarifas'      },
-        { titulo: 'Tipos de Servicio',        url: 'servicios'    },
+        { titulo: 'Empresas',                 url: 'empresas'     },
+        { titulo: 'Parámetros',               url: 'parametros'   },
+        // { titulo: 'Tarifas',                  url: 'tarifas'      },
+        // { titulo: 'Tipos de Servicio',        url: 'servicios'    },
+        // { titulo: 'Estados',                  url: 'estados'      },
+        // { titulo: 'Turnos',                   url: 'turnos'       },
         { titulo: 'Usuarios',                 url: 'usuarios'     },
-        { titulo: 'Estados',                  url: 'estados'      },
-        { titulo: 'Turnos',                   url: 'turnos'       },
       ]
     },
   ];

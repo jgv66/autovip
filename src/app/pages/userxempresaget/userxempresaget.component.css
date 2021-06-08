@@ -1,4 +1,8 @@
 .modal-content {
     height: 460px !important;
     width: 800px !important;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }

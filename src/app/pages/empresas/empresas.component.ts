@@ -72,34 +72,33 @@ export class EmpresasComponent implements OnInit {
     this.cargando = true;
     this.id = 0;
     this.datos.getServicioWEB( '/empresastotal', { entidad } )
-        .subscribe( (dev: any) => {
-            //
-            console.log(dev);
-            if ( entidad === 'C' ) {
-              this.cargando = false;
-              if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
-                Swal.fire('No existen clientes para desplegar');
-              } else {
-                this.dsClientes = new MatTableDataSource(dev.datos);
-                this.dsClientes.paginator = this.paginator.toArray()[0];
-                this.dsClientes.sort = this.sort.toArray()[0];
-                //
-              }
-            } else if ( entidad === 'P' ) {
-              this.cargando = false;
-              if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
-                Swal.fire('No existen proveedores para desplegar');
-              } else {
-                this.dsProveedores = new MatTableDataSource(dev.datos);
-                this.dsProveedores.paginator = this.paginator.toArray()[0];
-                this.dsProveedores.sort = this.sort.toArray()[0];
-                //
-              }
+      .subscribe( (dev: any) => {
+          //
+          this.cargando = false;
+          console.log(dev);
+          if ( entidad === 'C' ) {
+            if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
+              Swal.fire('No existen clientes para desplegar');
+            } else {
+              this.dsClientes = new MatTableDataSource(dev.datos);
+              this.dsClientes.paginator = this.paginator.toArray()[0];
+              this.dsClientes.sort = this.sort.toArray()[0];
+              //
             }
-        },
-        (error) => {
-          Swal.fire(error);
-        });
+          } else if ( entidad === 'P' ) {
+            if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
+              Swal.fire('No existen proveedores para desplegar');
+            } else {
+              this.dsProveedores = new MatTableDataSource(dev.datos);
+              this.dsProveedores.paginator = this.paginator.toArray()[0];
+              this.dsProveedores.sort = this.sort.toArray()[0];
+              //
+            }
+          }
+      },
+      (error) => {
+        Swal.fire(error);
+      });
   }
 
   aplicarFiltro( event, tipo ) {
@@ -119,7 +118,7 @@ export class EmpresasComponent implements OnInit {
     //
   }
 
-  verEmpresa( row, editar ) {
+  verCliente( row, editar ) {
     //
     this.creando = editar;
     //
@@ -139,7 +138,23 @@ export class EmpresasComponent implements OnInit {
     this.matrizdiaslaborales = this.deCodeDiasLaborales( row.diaslaborales );
     //
   }
-
+  verProveedor( row, editar ) {
+    //
+    this.creando = editar;
+    //
+    this.id = row.id;
+    this.tipo = row.tipo;
+    this.empresa = row.empresa;
+    this.fantasia = row.fantasia;
+    this.rut = row.rut;
+    this.departamento = row.departamento;
+    this.direccion = row.direccion;
+    this.comuna = row.comuna;
+    this.telefonos = row.telefonos;
+    this.email = row.email;
+    this.horarios = row.horarios;
+    //
+  }  
   deCodeDiasLaborales( diaslaborales ) {
     const dato = [];
     for (let index = 0; index < diaslaborales.length; index++) {
@@ -156,7 +171,7 @@ export class EmpresasComponent implements OnInit {
     return dato;
   }
 
-  grabarEmpresa( regForm: NgForm  ) {
+  grabarEntidad( regForm: NgForm, entidad ) {
     if ( regForm.invalid ) {
       Swal.fire({
         title: 'Error!',
@@ -167,30 +182,30 @@ export class EmpresasComponent implements OnInit {
       return;
     }
     //
-    this.grabando = true;
-    //
     const deta = {
+      entidad,
       id: this.id,
-      entidad: regForm.value.entidad,
-      tipo: regForm.value.tipo,
+      tipo: ( entidad === 'P' ) ? 'E' : regForm.value.tipo,
       empresa: regForm.value.empresa,
-      fantasia: regForm.value.fantasia,
+      fantasia: ( entidad === 'P' ) ? 'E' : regForm.value.fantasia,
       rut: regForm.value.rut,
-      departamento: regForm.value.departamento,
-      trato: regForm.value.trato,
+      departamento: ( entidad === 'P' ) ? 'E' : regForm.value.departamento,
+      trato: ( entidad === 'P' ) ? 'E' : regForm.value.trato,
       direccion: regForm.value.direccion,
       comuna: regForm.value.comuna,
       telefonos: regForm.value.telefonos,
       email: regForm.value.email,
       horarios: regForm.value.horarios,
-      diaslaborales: this.codeDiasLaborales(), 
+      diaslaborales: ( entidad === 'P' ) ? '' : this.codeDiasLaborales(), 
     };
+    //
+    this.grabando = true;
     //
     this.datos.postServicioWEB( '/empresa', deta )
       .subscribe( (dev: any) => {
-          console.log(dev);
-          this.grabando = false;
-          const entidad = regForm.value.entidad;
+        this.grabando = false;
+        const entidad = regForm.value.entidad;
+        console.log(dev,entidad);
           if ( dev.resultado === 'ok' ) {
             Swal.fire({ position: 'top-end',
                         icon: 'success',
@@ -216,7 +231,7 @@ export class EmpresasComponent implements OnInit {
       });
   }
 
-  eliminarEmpresa( row ) {
+  eliminarEntidad( row ) {
     Swal.fire({
       title: 'Esta seguro?',
       text: "No podrá revertir esta decisión",
