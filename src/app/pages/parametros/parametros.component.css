@@ -74,6 +74,74 @@ th {
     font-weight: bold;
 }
 
+.conductor {
+    flex: none;
+    max-width: 280px !important;
+    width: 280px !important;
+    text-align: left;
+}
+
+.marca {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+}
+
+.modelo {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+}
+
+.anno {
+    flex: none;
+    max-width: 60px !important;
+    width: 60px !important;
+    padding-left: 3px !important;
+    text-align: left;
+}
+
+.patente {
+    flex: none;
+    max-width: 80px !important;
+    width: 80px !important;
+    text-align: left;
+}
+
+.jornada {
+    flex: none;
+    max-width: 280px !important;
+    width: 280px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.inicial .final {
+    flex: none;
+    max-width: 180px !important;
+    width: 180px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.orden {
+    flex: none;
+    max-width: 120px !important;
+    width: 120px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.codigo {
+    flex: none;
+    max-width: 250px !important;
+    width: 250px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
 .acciones {
     margin-right: 15px;
     flex: none;
