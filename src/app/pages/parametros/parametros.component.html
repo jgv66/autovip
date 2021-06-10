@@ -18,7 +18,7 @@
             </div>
         </div>
         <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
-        <div class="mat-elevation-z8">
+        <div class="header-fix-container mat-elevation-z8">
             <table mat-table [dataSource]="dsTarifas" matSort>
                 <!--   -->
                 <ng-container matColumnDef="descripcion">
@@ -36,7 +36,7 @@
                         <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verTarifa( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearTa" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarTarifa( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'tarifa' )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
@@ -51,7 +51,7 @@
                 </tr>
 
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
         </div>
     </mat-tab>
     <mat-tab label="Servicios">
@@ -73,7 +73,7 @@
             </div>
         </div>
         <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
-        <div class="mat-elevation-z8">
+        <div class="header-fix-container mat-elevation-z8">
             <table mat-table [dataSource]="dsServicios" matSort>
                 <!--   -->
                 <ng-container matColumnDef="tipodeservicio">
@@ -91,7 +91,7 @@
                         <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verServicio( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearServ" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarServicio( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'servicio' )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
@@ -106,7 +106,7 @@
                 </tr>
 
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
         </div>
     </mat-tab>
     <mat-tab label="Estados">
@@ -128,44 +128,41 @@
             </div>
         </div>
         <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
-        <div class="mat-elevation-z8">
-            <table mat-table [dataSource]="dsEstados" matSort>
+        <div class="header-fix-container mat-elevation-z8">
+            <mat-table [dataSource]="dsEstados" style="margin-top: -10px;" class="mat-elevation-z8">
                 <!--   -->
                 <ng-container matColumnDef="orden">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="orden">Orden</th>
-                    <td mat-cell *matCellDef="let row" class="orden"> {{row.orden }}</td>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="orden">Orden</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="orden"> {{row.orden }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="codigo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="codigo">Código</th>
-                    <td mat-cell *matCellDef="let row" style.color="red" class="codigo"> {{row.codigo}} </td>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="codigo">Código</mat-header-cell>
+                    <mat-cell *matCellDef="let row" style.color="red" class="codigo"> {{row.codigo}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="descripcion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="descripcion">Descripción</th>
-                    <td mat-cell *matCellDef="let row" class="nombre">{{row.descripcion}}</td>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="ldescripcion">Descripción</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="ldescripcion">{{row.descripcion}}</mat-cell>
                 </ng-container>
                 <!-- cru -->
                 <ng-container matColumnDef="cru">
-                    <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
-                    <td mat-cell *matCellDef="let row" class="acciones">
+                    <mat-header-cell *matHeaderCellDef class="acciones">Acciones</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="acciones">
                         <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verEstados( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearEs" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarEstado( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'estado' )" data-toggle="modal" data-target="#" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
-                    </td>
+                    </mat-cell>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="dispEsColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: dispEsColumns;"></tr>
+                <mat-header-row *matHeaderRowDef="dispEsColumns; sticky: true"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dispEsColumns;"></mat-row>
 
-                <!-- Row shown when there is no matching data. -->
-                <tr class="mat-row" *matNoDataRow>
-                    <td class="mat-cell" colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</td>
-                </tr>
-
-            </table>
-            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                <mat-row *matNoDataRow>
+                    <mat-cell colspan="4">No existen datos que coincidan con el filtro "{{input.value}}"</mat-cell>
+                </mat-row>
+            </mat-table>
         </div>
     </mat-tab>
     <mat-tab label="Turnos">
@@ -187,7 +184,7 @@
             </div>
         </div>
         <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
-        <div class="mat-elevation-z8">
+        <div class="header-fix-container mat-elevation-z8">
             <table mat-table [dataSource]="dsTurnos" matSort>
                 <!--   -->
                 <ng-container matColumnDef="conductor">
@@ -229,7 +226,7 @@
                         <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verTurnos( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearTu" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarTurno( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'turno' )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
@@ -244,7 +241,7 @@
                 </tr>
 
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
         </div>
     </mat-tab>
     <mat-tab label="Licencias">
@@ -266,7 +263,7 @@
             </div>
         </div>
         <mat-progress-bar *ngIf=" cargando " mode="indeterminate"></mat-progress-bar>
-        <div class="mat-elevation-z8">
+        <div class="header-fix-container mat-elevation-z8">
             <table mat-table [dataSource]="dsLicencias" matSort>
                 <!--   -->
                 <ng-container matColumnDef="licencia">
@@ -274,8 +271,8 @@
                     <td mat-cell *matCellDef="let row" class="licencia"> {{row.licencia }}</td>
                 </ng-container>
                 <ng-container matColumnDef="descrip">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="descripcion">Descripción</th>
-                    <td mat-cell *matCellDef="let row" style.color="red" class="descripcion"> {{row.descrip}} </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="ldescripcion">Descripción</th>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="ldescripcion"> {{row.descrip}} </td>
                 </ng-container>
                 <!-- cru -->
                 <ng-container matColumnDef="cru">
@@ -284,14 +281,14 @@
                         <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verLicencias( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearLi" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarLicencia( row )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'licencia' )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
                             <i class="mdi mdi-delete mdi-24px"></i>
                         </a>&nbsp;&nbsp;
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="dispEsColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: dispEsColumns;"></tr>
+                <tr mat-header-row *matHeaderRowDef="dispLiColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: dispLiColumns;"></tr>
 
                 <!-- Row shown when there is no matching data. -->
                 <tr class="mat-row" *matNoDataRow>
@@ -299,9 +296,12 @@
                 </tr>
 
             </table>
-            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
         </div>
     </mat-tab>
+    <!-- <mat-tab label="prueba">
+    </mat-tab> -->
+
 </mat-tab-group>
 
 <!-- Modal crear/modificar tarifas -->
@@ -454,6 +454,53 @@
                     <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regTurnoForm.valid " data-dismiss="modal" (click)="grabarTurno( regTurnoForm )">Grabar y actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal crear/modificar estados -->
+<div class="modal fade" id="ModalCenteredCrearEs" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredCrearEsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered x800" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Mantención de Estados</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #regEstForm="ngForm">
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-4" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Orden</mat-label>
+                                <input type="text" matInput name="orden" [(ngModel)]="orden" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-8" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Código</mat-label>
+                                <input type="text" matInput name="codigo" [(ngModel)]="codigo" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Descriupción</mat-label>
+                                <input type="text" matInput name="descripcion" [(ngModel)]="descripcion" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+                <div class="modal-footer" style="margin-top: 0px;">
+                    <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regEstForm.valid " data-dismiss="modal" (click)="grabarEstado( regEstForm )">Grabar y actualizar</button>
                 </div>
             </div>
         </div>

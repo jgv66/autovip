@@ -97,8 +97,8 @@ export class ParametrosComponent implements OnInit {
               Swal.fire('No existen tarifas para desplegar');
             } else {
               this.dsTarifas = new MatTableDataSource(dev.datos);
-              this.dsTarifas.paginator = this.paginator.toArray()[0];
-              this.dsTarifas.sort = this.sort.toArray()[0];
+              // this.dsTarifas.paginator = this.paginator.toArray()[0];
+              // this.dsTarifas.sort = this.sort.toArray()[0];
               //
             }
         },
@@ -118,8 +118,8 @@ export class ParametrosComponent implements OnInit {
               Swal.fire('No existen servicios para desplegar');
             } else {
               this.dsServicios = new MatTableDataSource(dev.datos);
-              this.dsServicios.paginator = this.paginator.toArray()[0];
-              this.dsServicios.sort = this.sort.toArray()[0];
+              // this.dsServicios.paginator = this.paginator.toArray()[0];
+              // this.dsServicios.sort = this.sort.toArray()[0];
               //
             }
         },
@@ -139,8 +139,8 @@ export class ParametrosComponent implements OnInit {
               Swal.fire('No existen servicios para desplegar');
             } else {
               this.dsTurnos = new MatTableDataSource(dev.datos);
-              this.dsTurnos.paginator = this.paginator.toArray()[0];
-              this.dsTurnos.sort = this.sort.toArray()[0];
+              // this.dsTurnos.paginator = this.paginator.toArray()[0];
+              // this.dsTurnos.sort = this.sort.toArray()[0];
               //
             }
         },
@@ -160,8 +160,8 @@ export class ParametrosComponent implements OnInit {
               Swal.fire('No existen servicios para desplegar');
             } else {
               this.dsEstados = new MatTableDataSource(dev.datos);
-              this.dsEstados.paginator = this.paginator.toArray()[0];
-              this.dsEstados.sort = this.sort.toArray()[0];
+              // this.dsEstados.paginator = this.paginator.toArray()[0];
+              // this.dsEstados.sort = this.sort.toArray()[0];
               //
             }
         },
@@ -181,8 +181,8 @@ export class ParametrosComponent implements OnInit {
               Swal.fire('No existen licencias para desplegar');
             } else {
               this.dsLicencias = new MatTableDataSource(dev.datos);
-              this.dsLicencias.paginator = this.paginator.toArray()[0];
-              this.dsLicencias.sort = this.sort.toArray()[0];
+              // this.dsLicencias.paginator = this.paginator.toArray()[0];
+              // this.dsLicencias.sort = this.sort.toArray()[0];
               //
             }
         },
@@ -194,6 +194,7 @@ export class ParametrosComponent implements OnInit {
   aplicarFiltro( event, par ) {
     //
     const filterValue = (event.target as HTMLInputElement).value;
+    //
     if ( par === 'tarifa') {
       this.dsTarifas.filter = filterValue.trim().toLowerCase();
       if (this.dsTarifas.paginator) {
@@ -366,6 +367,55 @@ export class ParametrosComponent implements OnInit {
         })
       });
   }  
+  grabarEstado( regCliForm: NgForm ) {
+    if ( regCliForm.invalid ) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Debe definir los datos obligatorios para continuar con una grabación',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+      return;
+    }
+    //
+    const deta = {
+      id: this.id,
+      orden: regCliForm.value.orden,
+      codigo: regCliForm.value.codigo,
+      descripcion: regCliForm.value.descripcion,
+    };
+    //
+    this.grabando = true;
+    //
+    this.datos.postServicioWEB( '/estados', deta )
+      .subscribe( (dev: any) => {
+          console.log(dev);
+          this.grabando = false;
+          if ( dev.resultado === 'ok' ) {
+            Swal.fire({ position: 'top-end',
+                        icon: 'success',
+                        title: 'Datos grabados con éxito',
+                        showConfirmButton: false,
+                        timer: 1500
+            });
+            regCliForm.reset();
+            this.cargarTurnos();
+            this.creando = false;
+            this.id = 0;
+          } else  {
+            Swal.fire( dev.datos );
+          }
+      },
+      (error) => {
+        this.grabando = false;
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Salir'
+        })
+      });
+  }
   grabarTurno( regCliForm: NgForm ) {
     if ( regCliForm.invalid ) {
       Swal.fire({
@@ -433,12 +483,12 @@ export class ParametrosComponent implements OnInit {
     const deta = {
       id: this.id,
       licencia: regCliForm.value.licencia,
-      descrip:  regCliForm.value.descrip
+      descripcion:  regCliForm.value.descrip
     };
     //
     this.grabando = true;
     //
-    this.datos.postServicioWEB( '/licencia', deta )
+    this.datos.postServicioWEB( '/licencias', deta )
       .subscribe( (dev: any) => {
           console.log(dev);
           this.grabando = false;
@@ -468,7 +518,7 @@ export class ParametrosComponent implements OnInit {
       });
   }
 
-  eliminarTarifa( row ) {
+  eliminarRegistro( row, caso ) {
     Swal.fire({
       title: 'Esta seguro?',
       text: "No podrá revertir esta decisión",
@@ -477,135 +527,42 @@ export class ParametrosComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, borrarlo!'
-    }).then((result) => {
+    }).then( async (result) => {
       if (result.isConfirmed) {
-        this.borraRegistroTa( row.id );
+        //
+        const url = `/borra${ caso }`;
+        //
+        this.borraRegistro( row.id, url )
+          .then( () => {
+            if      ( caso === 'tarifa'   ) { this.cargarTarifas()   ; }
+            else if ( caso === 'servicio' ) { this.cargarServicios() ; }
+            else if ( caso === 'estado'   ) { this.cargarEstados()   ; }
+            else if ( caso === 'turno'    ) { this.cargarTurnos()    ; }
+            else if ( caso === 'licencia' ) { this.cargarLicencias() ; }
+          });
+          //
       }
     })
-  }
-  borraRegistroTa( id ) {
-    this.datos.postServicioWEB( '/borratarifa', { id } )
-    .subscribe( (dev: any) => {
-        if ( dev.resultado === 'ok' ) {
-          Swal.fire(
-            'Borrado!',
-            'El registro de Servicio ha sido borrado del sistema.',
-            'success'
-          );
-          this.cargarTarifas();
-          this.id = 0;
-        } else  {
-          Swal.fire( dev.datos );
-        }
-    },
-    (error) => {
-      Swal.fire('ERROR', error);
-    });
   }
 
-  eliminarServicio( row ) {
-    Swal.fire({
-      title: 'Esta seguro?',
-      text: "No podrá revertir esta decisión",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, borrarlo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.borraRegistroSe( row.id );
-      }
+  borraRegistro( id, url ) {
+    return new Promise( (resolve, reject) => {
+      this.datos.postServicioWEB( url, { id } )
+        .subscribe( (dev: any) => {
+            if ( dev.resultado === 'ok' ) {
+              this.id = 0;
+              Swal.fire( 'Borrado!', 'El registro de Servicio ha sido borrado del sistema.', 'success' );
+              resolve(true);
+            } else  {
+              Swal.fire( dev.datos );
+              reject(false);
+            }
+        },
+        (error) => {
+          Swal.fire('ERROR', error);
+          reject(false);
+        });
     })
-  }
-  borraRegistroSe( id ) {
-    this.datos.postServicioWEB( '/borraservicio', { id } )
-    .subscribe( (dev: any) => {
-        if ( dev.resultado === 'ok' ) {
-          Swal.fire(
-            'Borrado!',
-            'El registro de Servicio ha sido borrado del sistema.',
-            'success'
-          );
-          this.cargarServicios();
-          this.id = 0;
-        } else  {
-          Swal.fire( dev.datos );
-        }
-    },
-    (error) => {
-      Swal.fire('ERROR', error);
-    });
-  }
-  
-  eliminarTurno( row ) {
-    Swal.fire({
-      title: 'Esta seguro?',
-      text: "No podrá revertir esta decisión",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, borrarlo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.borraRegistroTu( row.id );
-      }
-    })
-  }
-  borraRegistroTu( id ) {
-    this.datos.postServicioWEB( '/borraturno', { id } )
-    .subscribe( (dev: any) => {
-        if ( dev.resultado === 'ok' ) {
-          Swal.fire(
-            'Borrado!',
-            'El registro de Turno ha sido borrado del sistema.',
-            'success'
-          );
-          this.cargarTurnos();
-          this.id = 0;
-        } else  {
-          Swal.fire( dev.datos );
-        }
-    },
-    (error) => {
-      Swal.fire('ERROR', error);
-    });
-  }
-
-  eliminarEstado( row ) {
-    Swal.fire({
-      title: 'Esta seguro?',
-      text: "No podrá revertir esta decisión",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, borrarlo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.borraRegistroEs( row.id );
-      }
-    })
-  }
-  borraRegistroEs( id ) {
-    this.datos.postServicioWEB( '/borraestado', { id } )
-    .subscribe( (dev: any) => {
-        if ( dev.resultado === 'ok' ) {
-          Swal.fire(
-            'Borrado!',
-            'El registro de Estado ha sido borrado del sistema.',
-            'success'
-          );
-          this.cargarEstados();
-          this.id = 0;
-        } else  {
-          Swal.fire( dev.datos );
-        }
-    },
-    (error) => {
-      Swal.fire('ERROR', error);
-    });
   }
 
 }

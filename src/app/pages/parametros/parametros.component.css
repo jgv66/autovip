@@ -8,26 +8,21 @@ select option {
     max-height: 400px;
 }
 
-mat-header-cell {
+mat-header-cell,
+th {
     font-weight: bold;
-    background-color: #03a9f438;
+    background-color: rgb(168, 158, 158);
 }
 
 mat-cell {
     font-weight: black;
 }
 
-th.mat-sort-header-sorted {
-    color: black;
-}
-
-th {
-    background-color: rgb(168, 158, 158);
-}
-
-.fix-container {
-    height: 600px;
-    overflow-x: auto;
+.header-fix-container {
+    height: 590px;
+    overflow: auto;
+    /* overflow-y: scroll; */
+    /* overflow-x: hidden; */
 }
 
 .example-h2 {
@@ -128,16 +123,32 @@ th {
 
 .orden {
     flex: none;
-    max-width: 120px !important;
-    width: 120px !important;
+    max-width: 200px !important;
+    width: 200px !important;
     text-align: left;
     font-weight: bold;
 }
 
 .codigo {
     flex: none;
-    max-width: 250px !important;
-    width: 250px !important;
+    max-width: 300px !important;
+    width: 300px !important;
+    text-align: left;
+    font-weight: bold;
+}
+
+.ldescripcion {
+    /* flex: none; */
+    /* max-width: 400px !important;
+    width: 400px !important; */
+    text-align: left;
+    /* font-weight: bold; */
+}
+
+.licencia {
+    flex: none;
+    max-width: 140px !important;
+    width: 140px !important;
     text-align: left;
     font-weight: bold;
 }
