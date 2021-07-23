@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 // modulos
 import { LoginService } from '../../services/login.service';
 import { DatosService } from '../../services/datos.service';
@@ -46,8 +45,8 @@ export class ParametrosComponent implements OnInit {
   //
   tipodeservicio = ''
   //
-  id_conductor = 0;
-  id_vehiculo = 0;
+  idconductor = 0;
+  idvehiculo = 0;
   jornada = '';
   inicio1 = '';
   termino1 = '';
@@ -61,7 +60,6 @@ export class ParametrosComponent implements OnInit {
 
   constructor( public loginService: LoginService,
                private datos: DatosService,
-               public dialog: MatDialog,
                private router: Router ) { }
 
   ngOnInit() {
@@ -242,8 +240,8 @@ export class ParametrosComponent implements OnInit {
     this.creando = editar;
     //
     this.id = row.id;
-    this.id_conductor = row.id_conductor;
-    this.id_vehiculo = row.id_vehiculo;
+    this.idconductor = row.idconductor;
+    this.idvehiculo = row.idvehiculo;
     this.jornada = row.jornada;
     this.inicio1 = row.inicio1;
     this.termino1 = row.termino1;
@@ -399,7 +397,7 @@ export class ParametrosComponent implements OnInit {
                         timer: 1500
             });
             regCliForm.reset();
-            this.cargarTurnos();
+            this.cargarEstados();
             this.creando = false;
             this.id = 0;
           } else  {
@@ -429,8 +427,8 @@ export class ParametrosComponent implements OnInit {
     //
     const deta = {
       id: this.id,
-      idconductor: regCliForm.value.id_conductor,
-      idvehiculo: regCliForm.value.id_vehiculo,
+      idconductor: regCliForm.value.idconductor,
+      idvehiculo: regCliForm.value.idvehiculo,
       jornada: regCliForm.value.jornada,
       inicio1: regCliForm.value.inicio1,
       termino1: regCliForm.value.termino1,
@@ -500,7 +498,7 @@ export class ParametrosComponent implements OnInit {
                         timer: 1500
             });
             regCliForm.reset();
-            this.cargarTurnos();
+            this.cargarLicencias();
             this.creando = false;
             this.id = 0;
           } else  {
@@ -544,7 +542,6 @@ export class ParametrosComponent implements OnInit {
       }
     })
   }
-
   borraRegistro( id, url ) {
     return new Promise( (resolve, reject) => {
       this.datos.postServicioWEB( url, { id } )

@@ -223,7 +223,7 @@
                 <ng-container matColumnDef="cru">
                     <th mat-header-cell *matHeaderCellDef class="acciones">Acciones</th>
                     <td mat-cell *matCellDef="let row" class="acciones">
-                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verTurnos( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearTu" style="margin-top:10px;">
+                        <a *ngIf=" loginService.usuario.admin " class="has-arrow waves-effect text-dark" (click)="verTurnos( row, true )" data-toggle="modal" data-target="#ModalCenteredCrearLi" style="margin-top:10px;">
                             <i class="mdi mdi-lead-pencil mdi-24px"></i>
                         </a>&nbsp;&nbsp;&nbsp;&nbsp;
                         <a *ngIf=" loginService.usuario.admin " (click)="eliminarRegistro( row, 'turno' )" class="has-arrow waves-effect text-dark" style="margin-top:10px;">
@@ -272,7 +272,7 @@
                 </ng-container>
                 <ng-container matColumnDef="descrip">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="ldescripcion">Descripción</th>
-                    <td mat-cell *matCellDef="let row" style.color="red" class="ldescripcion"> {{row.descrip}} </td>
+                    <td mat-cell *matCellDef="let row" style.color="red" class="ldescripcion"> ({{row.licencia}}) {{row.descripcion}} </td>
                 </ng-container>
                 <!-- cru -->
                 <ng-container matColumnDef="cru">
@@ -299,9 +299,6 @@
             <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
         </div>
     </mat-tab>
-    <!-- <mat-tab label="prueba">
-    </mat-tab> -->
-
 </mat-tab-group>
 
 <!-- Modal crear/modificar tarifas -->
@@ -399,7 +396,7 @@
                         <div class="col-4" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Conductor</mat-label>
-                                <select matNativeControl [(ngModel)]="id_conductor" name="id_conductor" required>
+                                <select matNativeControl [(ngModel)]="idconductor" name="idconductor" required>
                             <option value="" selected></option>
                             <option *ngFor="let cond of loginService.conductoresPermitidos" [value]="cond.id">{{ cond.nombres }}</option>
                           </select>
@@ -408,7 +405,7 @@
                         <div class="col-4" style="margin-top: 10px;">
                             <mat-form-field class="example-full-width">
                                 <mat-label>Vehículo</mat-label>
-                                <select matNativeControl [(ngModel)]="id_vehiculo" name="id_vehiculo" required>
+                                <select matNativeControl [(ngModel)]="idvehiculo" name="idvehiculo" required>
                                 <option value="" selected></option>
                                 <option *ngFor="let veh of loginService.vehiculosPermitidos" [value]="veh.id">{{ veh.vehiculo }}</option>
                               </select>
@@ -501,6 +498,45 @@
                     <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regEstForm.valid " data-dismiss="modal" (click)="grabarEstado( regEstForm )">Grabar y actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal crear/modificar licencias -->
+<div class="modal fade" id="ModalCenteredCrearLi" tabindex="-1" role="dialog" aria-labelledby="ModalCenteredCrearLiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered x800" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Mantención de Licencias</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #regLicForm="ngForm">
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-2" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Licencia</mat-label>
+                                <input type="text" matInput name="licencia" [(ngModel)]="licencia" required>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-10" style="margin-top: 10px;">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Descripción</mat-label>
+                                <input type="text" matInput name="descripcion" [(ngModel)]="descripcion" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <mat-progress-bar *ngIf=" grabando " mode="indeterminate"></mat-progress-bar>
+                <div class="modal-footer" style="margin-top: 0px;">
+                    <div class="example-label" style="margin-right: 50px;">Campos con asterisco o subrayado rojo son obligatorios</div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button *ngIf=" creando " type="button" class="btn btn-primary" [disabled]=" !regLicForm.valid " data-dismiss="modal" (click)="grabarLicencia( regLicForm )">Grabar y actualizar</button>
                 </div>
             </div>
         </div>

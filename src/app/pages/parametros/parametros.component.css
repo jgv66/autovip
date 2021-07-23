@@ -19,10 +19,8 @@ mat-cell {
 }
 
 .header-fix-container {
-    height: 590px;
+    height: 542px;
     overflow: auto;
-    /* overflow-y: scroll; */
-    /* overflow-x: hidden; */
 }
 
 .example-h2 {
@@ -107,8 +105,8 @@ mat-cell {
 
 .jornada {
     flex: none;
-    max-width: 280px !important;
-    width: 280px !important;
+    max-width: 380px !important;
+    width: 380px !important;
     text-align: left;
     font-weight: bold;
 }

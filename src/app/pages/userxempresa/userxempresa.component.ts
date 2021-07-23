@@ -67,7 +67,7 @@ export class UserxempresaComponent implements OnInit {
     this.datos.getServicioWEB( '/usuariosxempresa', { id_empresa: this.registro.id } )
         .subscribe( (dev: any) => {
             //
-            console.log(dev);
+            // console.log(dev);
             this.cargando = false;
             if ( dev.resultado === 'error' || dev.resultado === 'nodata' ) {
               Swal.fire('No existen usuarios para desplegar');
